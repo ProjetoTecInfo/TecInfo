@@ -24,7 +24,8 @@ Caso queira utilizar o prompt de comando, será necessário instalar o Maven (ht
 
 Para executar o projeto pela primeira vez pelo prompt:
 
-O comando abaixo realiza os testes dos códigos, contrói o WAR e realiza a implantação em um servidor wildfly 10
+O comando abaixo realiza os testes dos códigos, contrói o WAR e realiza a implantação em um servidor wildfly 10, disponibiliando a seguinte URL para acessar a aplicação : (http://localhost:8080/tecinfo-web/login.jsf)
+
 
 ```
 $ mvn wildfly:run
