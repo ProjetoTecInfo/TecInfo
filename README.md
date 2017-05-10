@@ -12,9 +12,9 @@ E utiliza o Arquillian (http://arquillian.org/) como framework de testes;
 
 Utilize uma IDE que tenha plugins Maven e Git:
 
-	- Eclipse (https://www.eclipse.org/downloads/eclipse-packages/): plugins Maven e Git : precisa instalar 
-	- Netbeans (https://netbeans.org/downloads/): plugins Maven e Git já vem incorporado a IDE 
-	- IntelliJ IDEA (esse tem a verão community que é free) (https://www.jetbrains.com/idea/#chooseYourEdition) : plugins Maven e Git já vem incorporado a IDE]
+- Eclipse (https://www.eclipse.org/downloads/eclipse-packages/): plugins Maven e Git : precisa instalar 
+- Netbeans (https://netbeans.org/downloads/): plugins Maven e Git já vem incorporado a IDE 
+- IntelliJ IDEA (esse tem a verão community que é free) (https://www.jetbrains.com/idea/#chooseYourEdition) : plugins Maven e Git já vem incorporado a IDE]
 
 Eu utilizo o Eclipse, porém utilizo muito o prompt de comando, já o Netbeans tem uma integração melhor com o Maven. Não tenho muito o que falar do IntelliJ IDE pois não utilizo muito ele
 
