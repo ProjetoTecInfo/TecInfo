@@ -162,8 +162,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.14</version>
                 <configuration>
-                    <!-- Fork every test because it will launch a separate AS instance -->
-                    <forkMode>never</forkMode>
+                    <!--Fork every test because it will launch a separate AS instance--> 
                     <systemPropertyVariables>
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                         <!-- the maven dependency plugin will have already downloaded the server on /target -->
