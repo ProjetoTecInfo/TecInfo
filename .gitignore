@@ -135,3 +135,5 @@ nbdist/
 /docs/Search Criteria Screen.pptx
 /*.iml
 /.idea/
+/phantomjsdriver.log
+/nbactions.xml

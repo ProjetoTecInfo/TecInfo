@@ -11,17 +11,17 @@
 		<property name="browser">${browser}</property>
 	</extension>
 	<!-- Configuration to be used when the WidlFly remote profile is active -->
-	<container qualifier="widlfly-remote">
+<!--	<container qualifier="widlfly-remote">
 		<configuration>
 			<property name="managementAddress">127.0.0.1</property>
 			<property name="managementPort">9990</property>
 			<property name="username">admin</property>
 			<property name="password">admin</property>
 		</configuration>
-	</container>
+	</container>-->
 
 	<!-- Configuration to be used when the WildFly managed profile is active -->
-	<container qualifier="widlfly-managed" default="true">
+	<container qualifier="widlfly" default="true">
 <!-- 		<configuration> -->
 <!-- 			<property name="jbossHome">${jbossHome:target/wildfly-8.1.0.Final}</property> -->
 <!-- 		</configuration> -->
