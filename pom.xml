@@ -78,7 +78,7 @@
         <!--<scope>test</scope>-->
         <!--</dependency>-->
         
-        <dependency>
+<!--        <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-arquillian-container-embedded</artifactId>
             <version>${wildfly.version}</version>
@@ -90,13 +90,13 @@
             <artifactId>wildfly-embedded</artifactId>
             <version>${wildfly.version}</version>
             <scope>test</scope>
-        </dependency>
-<!--        <dependency>
+        </dependency>-->
+        <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-arquillian-container-managed</artifactId>
             <version>${version.arquillian.wildfly.managed}</version>
             <scope>test</scope>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.graphene</groupId>
             <artifactId>graphene-webdriver</artifactId>
