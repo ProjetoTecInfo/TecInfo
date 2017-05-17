@@ -1,4 +1,4 @@
-package br.com.tecinfo.web.business.boundary.jsf.auth;
+package br.com.tecinfo.boundary.jsf;
 
 import static org.jboss.arquillian.graphene.Graphene.guardAjax;
 import static org.jboss.arquillian.graphene.Graphene.guardHttp;
@@ -19,12 +19,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import br.com.tecinfo.web.Deployments;
+import br.com.tecinfo.Deployments;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 
 @RunWith(Arquillian.class)
 public class LoginScreenTest {
 
-	@Deployment(testable = false)
+	@Deployment
 	public static WebArchive createDeployment() {
 		return Deployments.createLoginScreenDeployment();
 	}
@@ -35,7 +36,7 @@ public class LoginScreenTest {
 	@ArquillianResource
 	private URL deploymentUrl;
 
-	@FindBy(id = "loginForm:userName") // 1. injects an element by default
+	@FindBy(id = "loginForm:username") // 1. injects an element by default
 										// location strategy ("idOrName")
 	private WebElement userName;
 
@@ -57,13 +58,8 @@ public class LoginScreenTest {
 	@Test
 	public void should_login_successfully() {
 		browser.get(deploymentUrl.toExternalForm() + "login.jsf"); // first page
-																	// load
-																	// doesn't
-																	// have to
-																	// be
-																	// synchronized
 
-		userName.sendKeys("demo");
+                userName.sendKeys("demo");
 		password.sendKeys("demo");
 
 		guardHttp(loginButton).click(); // 1. synchronize full-page request

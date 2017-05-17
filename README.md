@@ -6,7 +6,7 @@ PROJETO PRÁTICO EM MIGRAÇÃO DE SISTEMAS
 
 Projeto Maven que gera um arquivo WAR em Java 1.8 que utiliza as especificações:
 
-	JSF / EJB3 / JPA 
+	JSF + Primefaces / EJB3 / JPA 
 
 E utiliza o Arquillian (http://arquillian.org/) como framework de testes;
 
@@ -24,7 +24,7 @@ Caso queira utilizar o prompt de comando, será necessário instalar o Maven (ht
 
 Para executar o projeto pela primeira vez pelo prompt:
 
-O comando abaixo realiza os testes dos códigos, contrói o WAR e realiza a implantação em um servidor wildfly 8.1.0.Final, disponibiliando a seguinte URL para acessar a aplicação : (http://localhost:8080/tecinfo-web/login.jsf)
+O comando abaixo realiza os testes dos códigos, contrói o WAR e realiza a implantação em um servidor wildfly 10.1.0.Final, disponibiliando a seguinte URL para acessar a aplicação : (http://localhost:8080/tecinfo-web/login.jsf)
 
 
 ```

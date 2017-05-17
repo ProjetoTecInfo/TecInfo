@@ -1,4 +1,4 @@
-package br.com.tecinfo.web.business.entities.auth;
+package br.com.tecinfo.entities;
 
 import java.io.Serializable;
 import java.util.LinkedHashSet;
@@ -29,7 +29,7 @@ public class User implements Serializable {
 	@ElementCollection
 	@CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "username"))
 	@Column(name = "role")
-	private Set<String> roles = new LinkedHashSet<String>();
+	private Set<String> roles = new LinkedHashSet<>();
 
 	public User() {
 	}

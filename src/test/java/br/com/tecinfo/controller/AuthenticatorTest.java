@@ -1,19 +1,16 @@
-package br.com.tecinfo.web.business.controller.auth;
+package br.com.tecinfo.controller;
 
-import static org.junit.Assert.assertNotNull;
+import br.com.tecinfo.controller.Authenticator;
+import br.com.tecinfo.Deployments;
 
 import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import br.com.tecinfo.web.Deployments;
-import br.com.tecinfo.web.business.controller.auth.Authenticator;
-import br.com.tecinfo.web.business.exception.BusinessException;
-import br.com.tecinfo.web.business.exception.InfrastructureException;
 
 @RunWith(Arquillian.class)
 public class AuthenticatorTest { 
@@ -27,7 +24,7 @@ public class AuthenticatorTest {
 	Authenticator authenticator;
 
 	@Test
-	public void autenticate_validUser_ok() throws BusinessException, InfrastructureException {
+	public void autenticate_validUser_ok() {
 		assertNotNull(authenticator.authenticate("demo","demo"));
 	}
 }
