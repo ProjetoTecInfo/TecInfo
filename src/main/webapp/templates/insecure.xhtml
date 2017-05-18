@@ -12,15 +12,15 @@
 
     <h:body>
         
-        <p:layout>
+        <p:layout fullPage="true">
             <p:layoutUnit position="north" resizable="false">
                 <ui:insert name="top"/>
             </p:layoutUnit>
-            <p:layoutUnit position="center">
-                <ui:insert name="content"/>
-            </p:layoutUnit>
             <p:layoutUnit position="south" resizable="false">
                 <ui:insert name="footer"/>
+            </p:layoutUnit>
+            <p:layoutUnit position="center" >
+                <ui:insert name="content"/>
             </p:layoutUnit>
         </p:layout>
     </h:body>

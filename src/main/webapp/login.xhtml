@@ -1,18 +1,14 @@
-<!DOCTYPE html>
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Log in</title>
-    </h:head>
-    <h:body>
-        <h:form>
-
-            <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
-
-            <p:dialog header="Login" widgetVar="dlg" resizable="false" visible="true" >
+    <ui:composition template="./templates/insecure2.xhtml">
+        <ui:define name="title">Login</ui:define>
+        <ui:define name="content">
+            <p:dialog header="Login" modal="true" closable="false" widgetVar="dlg" resizable="false" visible="true" >
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel for="username" value="Username:" />
                     <p:inputText id="username" value="#{credentials.username}" required="true" label="username" />
@@ -21,25 +17,26 @@
                     <p:password id="password" value="#{credentials.password}" required="true" label="password" />
 
                     <f:facet name="footer">
-                        <p:commandButton id="login" value="Login" update="growl" actionListener="#{loginBean.login}"
+                        <p:commandButton id="login" value="Login" update="messages" actionListener="#{loginBean.login}"
                                          oncomplete="handleLoginRequest(xhr, status, args)" />
                     </f:facet>  
                 </h:panelGrid>
             </p:dialog>
-
-            
-        </h:form>
-        <script type="text/javascript">
-            function handleLoginRequest(xhr, status, args) {
-                if (args.validationFailed || !args.loggedIn) {
-                    PF('dlg').jq.effect("shake", {
-                        times: 5
-                    }, 100);
-                } else {
-                    PF('dlg').
-                            hide();
+           
+            <script type="text/javascript">
+                function handleLoginRequest(xhr, status, args) {
+                    if (args.validationFailed || !args.loggedIn) {
+                        PF('dlg').jq.effect("shake", {
+                            times: 5
+                        },
+                        100);
+                    } else {
+                        PF('dlg').
+                                hide();
+                        location.replace('home.jsf');
+                    }
                 }
-            }
-        </script>
-    </h:body>
+            </script>
+        </ui:define>
+    </ui:composition>
 </html>

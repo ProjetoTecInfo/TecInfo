@@ -129,7 +129,7 @@ dist/
 nbdist/
 .nb-gradle/
 nb-configuration.xml
-
+faces-config.NavData
 /docs/PCR Fuzzy Logic TP Matching 20170220 v1.pptx
 /docs/RE TP Lists - fuzzy logic matching.msg
 /docs/feedbackChanges/

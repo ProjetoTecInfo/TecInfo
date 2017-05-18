@@ -36,14 +36,14 @@ public class LoginScreenTest {
 	@ArquillianResource
 	private URL deploymentUrl;
 
-	@FindBy(id = "loginForm:username") // 1. injects an element by default
+	@FindBy(id = "form:username") // 1. injects an element by default
 										// location strategy ("idOrName")
 	private WebElement userName;
 
-	@FindBy(id = "loginForm:password")
+	@FindBy(id = "form:password")
 	private WebElement password;
 
-	@FindBy(id = "loginForm:login")
+	@FindBy(id = "form:login")
 	private WebElement loginButton;
 
 	@FindBy(tagName = "li") // 2. injects a first element with given tag name
