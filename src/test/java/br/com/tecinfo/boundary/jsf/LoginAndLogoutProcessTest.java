@@ -1,13 +1,13 @@
 package br.com.tecinfo.boundary.jsf;
 
-import static org.jboss.arquillian.graphene.Graphene.guardAjax;
-import static org.jboss.arquillian.graphene.Graphene.guardHttp;
+import static org.jboss.arquillian.graphene.Graphene.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.findby.FindByJQuery;
 import org.jboss.arquillian.junit.Arquillian;
@@ -20,10 +20,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import br.com.tecinfo.Deployments;
-import org.jboss.arquillian.container.test.api.RunAsClient;
 
 @RunWith(Arquillian.class)
-public class LoginScreenTest {
+public class LoginAndLogoutProcessTest {
 
 	@Deployment
 	public static WebArchive createDeployment() {
@@ -36,37 +35,34 @@ public class LoginScreenTest {
 	@ArquillianResource
 	private URL deploymentUrl;
 
-	@FindBy(id = "form:username") // 1. injects an element by default
-										// location strategy ("idOrName")
+	@FindBy(id = "form:usuario") // 1. injects an element by default
+									// location strategy ("idOrName")
 	private WebElement userName;
 
-	@FindBy(id = "form:password")
+	@FindBy(id = "form:senha")
 	private WebElement password;
 
-	@FindBy(id = "form:login")
+	@FindBy(id = "form:btnLogin")
 	private WebElement loginButton;
 
-	@FindBy(tagName = "li") // 2. injects a first element with given tag name
-	private WebElement facesMessage;
+	@FindBy(id = "form:btnLogout")
+	private WebElement loginLogout;
 
-	@FindByJQuery("p:visible") // 3. injects an element using jQuery selector
-	private WebElement signedAs;
-
-	@FindBy(css = "input[type=submit]")
-	private WebElement whoAmI;
+	@FindByJQuery("span.ui-menuitem-text:first")
+	private WebElement fistItemMenu;
 
 	@Test
 	public void should_login_successfully() {
-		browser.get(deploymentUrl.toExternalForm() + "login.jsf"); // first page
+		browser.get(deploymentUrl.toExternalForm() + "login.jsf"); 
+		userName.sendKeys("admin");
+		password.sendKeys("admin");
 
-                userName.sendKeys("demo");
-		password.sendKeys("demo");
+		guardHttp(loginButton).click(); 
+		assertTrue(browser.getTitle().contains("Home"));
+		assertEquals("File", fistItemMenu.getText().trim());
 
-		guardHttp(loginButton).click(); // 1. synchronize full-page request
-		assertEquals("Welcome", facesMessage.getText().trim());
-
-		guardAjax(whoAmI).click(); // 2. synchronize AJAX request
-		assertTrue(signedAs.getText().contains("demo"));
+		guardHttp(loginLogout).click(); 
+		assertTrue(browser.getTitle().contains("Login"));
 	}
 
 }

@@ -21,9 +21,9 @@
 	</container>-->
 
 	<!-- Configuration to be used when the WildFly managed profile is active -->
-	<!--<container qualifier="widlfly" default="true">-->
-<!-- 		<configuration> -->
-<!-- 			<property name="jbossHome">${jbossHome:target/wildfly-8.1.0.Final}</property> -->
-<!-- 		</configuration> -->
-	<!--</container>-->
+	<container qualifier="widlfly" default="true">
+		<configuration>
+			<property name="jbossHome">${project.build.directory}/wildfly-${wildfly.version}</property>
+		</configuration>
+	</container>
 </arquillian>

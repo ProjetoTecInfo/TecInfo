@@ -138,3 +138,5 @@ faces-config.NavData
 /.idea/
 /phantomjsdriver.log
 /nbactions.xml
+
+/.wildfly-10.1.0.Final/
