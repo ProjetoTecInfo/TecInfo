@@ -1,31 +1,34 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
 
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="css/default.css"/>
-        <title>Tecinfo Web [<ui:insert name="title"></ui:insert>]</title>
-    </h:head>
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputScript name="jquery/jquery-3.2.1.min.js"></h:outputScript>
+	<h:outputScript name="bootstrap/3.3.7/js/bootstrap.js"></h:outputScript>
+	<h:outputStylesheet name="bootstrap/3.3.7/css/bootstrap-theme.css" />
+	<h:outputStylesheet name="bootstrap/3.3.7/css/bootstrap.css" />
+	<h:outputStylesheet name="css/default.css" />
+	<title>Tecinfo Web [<ui:insert name="title"></ui:insert>]
+	</title>
+</h:head>
 
-    <h:body>
-        <h:form id="form" prependId="true">
-            <p:growl id="messages" sticky="true" showDetail="true" life="3000" />
-            <div id="top">
-                <ui:insert name="top"></ui:insert>
-            </div>
+<h:body>
+	<h:form id="form" prependId="true">
+		<div id="top">
+			<ui:insert name="top"></ui:insert>
+		</div>
 
-            <div id="content" class="center_content">
-                <ui:insert name="content"></ui:insert>
-            </div>
+		<div id="content" class="center_content">
+			<ui:insert name="content"></ui:insert>
+		</div>
 
-            <div id="bottom">
-                <ui:insert name="bottom"></ui:insert>
-            </div>
-        </h:form>
-    </h:body>
+		<div id="bottom">
+			<ui:insert name="bottom"></ui:insert>
+		</div>
+	</h:form>
+</h:body>
 
 </html>

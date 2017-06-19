@@ -3,29 +3,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:f="http://java.sun.com/jsf/core">
 <ui:composition template="./templates/insecure-template.xhtml">
 	<ui:define name="title">Login</ui:define>
 	<ui:define name="content">
-		<p:dialog header="Login" modal="false" closable="false" widgetVar="dlg"
-			resizable="false" visible="true">
-			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel for="usuario" value="Usuário:" />
-				<p:inputText id="usuario" tabindex="1" value="#{loginMBean.usuario}"
-					required="true" label="usuario" />
+		<h:form>
 
-				<h:outputLabel for="senha" value="Senha:" />
-				<p:password id="senha" tabindex="2" value="#{loginMBean.senha}"
-					required="true" label="senha" />
+			<div class="panel panel-default">
+				<div class="panel-heading">Panel heading without title</div>
+				<div class="panel-body">
+					<ul>
+						<li jsfc="h:messages"
+							errorClass="label label-danger glyphicon glyphicon-exclamation-sign"
+							infoClass="label label-info glyphicon glyphicon-info-sign"
+							warnClass="label label-warning glyphicon glyphicon-exclamation-sign" />
+					</ul>
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel for="usuario" value="Usuário:" />
+						<h:inputText id="usuario" tabindex="1"
+							value="#{loginMBean.usuario}" required="true" label="usuario" />
 
-				<f:facet name="footer">
-					<p:commandButton id="btnLogin" tabindex="3" value="Login"
-						ajax="false"
-						action="#{loginMBean.login}" />
-				</f:facet>
-			</h:panelGrid>
-		</p:dialog>
+						<h:outputLabel for="senha" value="Senha:" />
+						<h:inputSecret id="senha" value="#{loginMBean.senha}"
+							required="true" label="senha" />
+
+						<f:facet name="footer">
+							<h:commandButton id="btnLogin" tabindex="3" value="Login"
+								action="#{loginMBean.login}" />
+						</f:facet>
+					</h:panelGrid>
+				</div>
+			</div>
+		</h:form>
 	</ui:define>
 </ui:composition>
 </html>

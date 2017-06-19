@@ -24,8 +24,6 @@ public class LoginMBean implements Serializable {
 	@RequestScoped
 	private Instance<FacesContext> facesContext;
 
-	private boolean logged = false;
-
 	private Funcionario funcionarioCorrente;
 
 	private String usuario;

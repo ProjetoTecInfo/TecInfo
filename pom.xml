@@ -24,15 +24,14 @@
 		<arquillian_jacoco.version>1.0.0.Alpha8</arquillian_jacoco.version>
 	</properties>
 
-	<repositories>
-		<!-- For 3.5 and older -->
-		<repository>
-			<id>prime-repo</id>
-			<name>PrimeFaces Maven Repository</name>
-			<url>http://repository.primefaces.org</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
+	<!-- <repositories> -->
+	<!-- <repository> -->
+	<!-- <id>prime-repo</id> -->
+	<!-- <name>PrimeFaces Maven Repository</name> -->
+	<!-- <url>http://repository.primefaces.org</url> -->
+	<!-- <layout>default</layout> -->
+	<!-- </repository> -->
+	<!-- </repositories> -->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -63,16 +62,16 @@
 
 
 		<!--Primefaces API -->
-		<dependency>
-			<groupId>org.primefaces</groupId>
-			<artifactId>primefaces</artifactId>
-			<version>6.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.primefaces.themes</groupId>
-			<artifactId>all-themes</artifactId>
-			<version>1.0.10</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.primefaces</groupId> -->
+<!-- 			<artifactId>primefaces</artifactId> -->
+<!-- 			<version>6.1</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.primefaces.themes</groupId> -->
+<!-- 			<artifactId>all-themes</artifactId> -->
+<!-- 			<version>1.0.10</version> -->
+<!-- 		</dependency> -->
 
 		<!--JEE API -->
 		<dependency>
@@ -81,7 +80,7 @@
 			<version>7.0</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
