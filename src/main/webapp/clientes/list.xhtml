@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/secure-template.xhtml">
+
+	<ui:define name="title">
+        Clientes
+    </ui:define>
+
+	<ui:define name="top">
+
+	</ui:define>
+
+	<ui:define name="content">
+		<p:fieldset legend="Clientes - Pesquisar" style="margin-bottom:20px">
+			<h:panelGrid id="frmPesquisa" columns="5" cellpadding="5">
+				<h:outputLabel for="tipoDeFiltro" value="Pesquisar por:" />
+
+				<p:selectOneMenu id="tipoDeFiltro" 
+					value="#{clientesMBean.tipoFiltro}" immediate="true">
+					<f:ajax immediate="true" render="form:valorFiltro"></f:ajax>
+					<f:selectItems value="#{clientesMBean.filtrosSuportados}"></f:selectItems>
+				</p:selectOneMenu>
+
+				<h:panelGroup id="valorFiltro">
+					<p:inputText id="codigoRef" value="#{clientesMBean.codigoRef}"
+						converterMessage="Código inválido"
+						rendered="#{clientesMBean.getFiltrosSuportados()[1] eq clientesMBean.tipoFiltro}" />
+
+					<p:inputText id="nomeRef" value="#{clientesMBean.nomeRef}"
+						rendered="#{clientesMBean.getFiltrosSuportados()[0] eq clientesMBean.tipoFiltro}" />
+				</h:panelGroup>
+				<f:facet name="footer">
+					<p:commandButton id="btnClientePesquisa" value="Procurar"
+						icon="ui-icon-search"
+						update="form:messages,form:frmPesquisa,form:listaClientes"
+						actionListener="#{clientesMBean.pesquisar()}"></p:commandButton>
+					<p:commandButton id="btnClientePesquisaReset" value="Nova pesquisa"
+						icon="ui-icon-refresh" immediate="true"
+						actionListener="#{clientesMBean.abrirPesquisa()}"
+						update="form:messages,form:frmPesquisa,form:listaClientes">
+					</p:commandButton>
+					<p:commandButton id="btnAddCliente" value="Adicionar Novo"
+						icon="ui-icon-plus"
+						update="form:messages,form:tipoDeFiltro,form:valorFiltro,form:listaClientes"
+						actionListener="#{clientesMBean.novoCliente()}" immediate="true"
+						rendered="#{viewUtil.temPapel('ATENDENTE')}"></p:commandButton>
+				</f:facet>
+			</h:panelGrid>
+
+		</p:fieldset>
+		<p:dataTable var="cliente" id="listaClientes"
+			value="#{clientesMBean.clientesEncontrados}" rows="10"
+			paginator="true" emptyMessage="Nenhum cliente registrado"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15">
+
+			<p:column headerText="">
+				<p:commandButton icon="ui-icon-zoomin"
+					actionListener="#{clientesMBean.abrirCliente(cliente)}"
+					immediate="true"></p:commandButton>
+				<p:commandButton icon="ui-icon-trash"
+					actionListener="#{clientesMBean.remover(cliente)}"
+					update="listaClientes" rendered="#{viewUtil.temPapel('ATENDENTE')}">
+					<p:confirm header="Remover Cliente"
+						message="Deseja realmente remover o cliente #{cliente.nome} ?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+
+			</p:column>
+
+			<p:column sortBy="#{cliente.codigo}" width="10%" headerText="Código">
+				<h:outputText value="#{cliente.codigo}" />
+			</p:column>
+
+			<p:column sortBy="#{cliente.nome}" width="80%" headerText="Nome">
+				<h:outputText value="#{cliente.nome}" />
+			</p:column>
+
+
+		</p:dataTable>
+	</ui:define>
+
+	<ui:define name="bottom">
+		
+	</ui:define>
+
+</ui:composition>
+</html>

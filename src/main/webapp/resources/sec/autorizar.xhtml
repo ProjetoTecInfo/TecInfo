@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+	xmlns:h="http://java.sun.com/jsf/html">
+<!-- INTERFACE -->
+<cc:interface>
+	<cc:attribute name="papel" />
+	<cc:attribute name="titulo" default="Acesso negado" />
+	<cc:attribute name="mensagem"
+		default="Acesso negado ao recurso solicitado" />
+</cc:interface>
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+	<h:panelGroup rendered="#{!viewUtil.temPapel(cc.attrs.papel)}">
+		<p:dialog header="${cc.attrs.titulo}" widgetVar="dlg2" modal="true"
+			closable="false" visible="true">
+			<h:outputText value="#{cc.attrs.mensagem}" />
+			<f:facet name="footer">
+				<p:commandButton id="btnHome" 
+					value="Ok"
+					actionListener="#{viewUtil.irParaPagina('/home.xhtml',true)}" />
+			</f:facet>
+		</p:dialog>
+	</h:panelGroup>
+	<h:panelGroup rendered="#{viewUtil.temPapel(cc.attrs.papel)}">
+		<cc:insertChildren />
+	</h:panelGroup>
+</cc:implementation>
+</html>

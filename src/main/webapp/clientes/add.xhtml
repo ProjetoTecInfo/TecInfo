@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://xmlns.jcp.org/jsf/composite/sec">
+<ui:composition template="/templates/secure-template.xhtml">
+
+	<ui:define name="title">
+        Adicionar Cliente
+    </ui:define>
+
+	<ui:define name="top">
+	</ui:define>
+
+	<ui:define name="content">
+		<sec:soAtendentes>
+			<p:fieldset legend="Clientes - Adicionar Cliente"
+				style="margin-bottom:20px">
+				<h:panelGrid columns="2">
+					<h:outputLabel for="nome" value="Nome:" />
+					<p:inputText id="nome" value="#{clientesMBean.cliente.nome}"></p:inputText>
+					<f:facet name="footer">
+						<h:panelGrid columns="3">
+							<p:commandButton id="btnSalvar" value="Ok" icon="ui-icon-check"
+								actionListener="#{clientesMBean.adicionarCliente()}"></p:commandButton>
+							<p:commandButton id="btnReset" value="Limpar"
+								icon="ui-icon-refresh"
+								actionListener="#{clientesMBean.novoCliente()}"></p:commandButton>
+							<p:commandButton id="btnListaDeClientes" value="Lista de Clientes"
+								icon="ui-icon-cancel"
+								actionListener="#{clientesMBean.abrirPesquisa()}"></p:commandButton>
+						</h:panelGrid>
+					</f:facet>
+				</h:panelGrid>
+			</p:fieldset>
+		</sec:soAtendentes>
+	</ui:define>
+
+	<ui:define name="bottom">
+
+	</ui:define>
+
+</ui:composition>
+</html>

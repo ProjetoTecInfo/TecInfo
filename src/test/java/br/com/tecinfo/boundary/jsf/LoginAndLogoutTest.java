@@ -1,13 +1,12 @@
 package br.com.tecinfo.boundary.jsf;
 
-import static org.jboss.arquillian.graphene.Graphene.*;
+import static org.jboss.arquillian.graphene.Graphene.guardHttp;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.findby.FindByJQuery;
 import org.jboss.arquillian.junit.Arquillian;
@@ -22,7 +21,7 @@ import org.openqa.selenium.support.FindBy;
 import br.com.tecinfo.Deployments;
 
 @RunWith(Arquillian.class)
-public class LoginAndLogoutProcessTest {
+public class LoginAndLogoutTest {
 
 	@Deployment
 	public static WebArchive createDeployment() {
@@ -52,8 +51,10 @@ public class LoginAndLogoutProcessTest {
 	private WebElement fistItemMenu;
 
 	@Test
-	public void should_login_successfully() {
+	public void login_e_logout_usuarioValido() {
 		browser.get(deploymentUrl.toExternalForm() + "login.jsf"); 
+		assertTrue(browser.getTitle().contains("Login"));
+
 		userName.sendKeys("admin");
 		password.sendKeys("admin");
 

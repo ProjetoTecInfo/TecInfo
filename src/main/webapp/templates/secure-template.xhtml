@@ -7,8 +7,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<f:metadata>
-		<f:event listener="#{viewSecurity.isAuthenticated}"
-			type="preRenderView"></f:event>
+		<f:event listener="#{viewUtil.isAuthenticated}" type="preRenderView"></f:event>
 	</f:metadata>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<h:outputStylesheet name="css/default.css" />
@@ -18,17 +17,37 @@
 
 <h:body>
 	<h:form id="form" prependId="true">
-		<p:growl id="messages" sticky="true" showDetail="true" life="3000" />
+		<p:growl id="messages" sticky="false" />
+
 		<div id="top">
+			<ui:include src="/toolbar.xhtml" />
+			<p:spacer></p:spacer>
 			<ui:insert name="top"></ui:insert>
 		</div>
 
-		<div id="content" class="center_content">
+		<div id="content">
 			<ui:insert name="content"></ui:insert>
 		</div>
 
 		<div id="bottom">
 			<ui:insert name="bottom"></ui:insert>
+		</div>
+
+		<div>
+			<p:ajaxStatus onstart="PF('statusDialog').show()"
+				onsuccess="PF('statusDialog').hide()" />
+
+			<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+				<p:graphicImage library="images" name="ajaxloadingbar.gif" />
+			</p:dialog>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
 		</div>
 	</h:form>
 </h:body>

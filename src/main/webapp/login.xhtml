@@ -12,17 +12,17 @@
 			resizable="false" visible="true">
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel for="usuario" value="Usuário:" />
-				<p:inputText id="usuario" value="#{credenciais.usuario}"
+				<p:inputText id="usuario" tabindex="1" value="#{loginMBean.usuario}"
 					required="true" label="usuario" />
 
 				<h:outputLabel for="senha" value="Senha:" />
-				<p:password id="senha" value="#{credenciais.senha}"
+				<p:password id="senha" tabindex="2" value="#{loginMBean.senha}"
 					required="true" label="senha" />
 
 				<f:facet name="footer">
-					<p:commandButton id="btnLogin" value="Login"
+					<p:commandButton id="btnLogin" tabindex="3" value="Login"
 						ajax="false"
-						action="#{loginBean.login}" />
+						action="#{loginMBean.login}" />
 				</f:facet>
 			</h:panelGrid>
 		</p:dialog>

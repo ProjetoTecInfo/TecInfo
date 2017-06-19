@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/secure-template.xhtml">
+
+	<ui:define name="title">
+        Visualizando Cliente
+    </ui:define>
+
+	<ui:define name="top">
+	</ui:define>
+
+	<ui:define name="content">
+		<p:fieldset legend="Clientes" style="margin-bottom:20px;">
+			<p:panel header="Cliente [#{clientesMBean.cliente.codigo}]"
+				style="margin-bottom:20px">
+				<h:panelGrid columns="2" columnClasses="vertical-top">
+					<p:outputLabel value="Nome:" />
+					<p:outputLabel value="#{clientesMBean.cliente.nome}" />
+					<p:outputLabel value="Emails:" />
+					<h:panelGrid id="emails" columns="1">
+						<h:dataTable border="0" value="#{clientesMBean.cliente.emails}"
+							var="email">
+							<h:column>
+								<p:commandButton icon="ui-icon-trash"
+									actionListener="#{clientesMBean.removerEmail(email)}"
+									immediate="true" update="form:emails"
+									rendered="#{viewUtil.temPapel('ATENDENTE')}">
+									<p:confirm header="Remover E-mail"
+										message="Deseja realmente remover o email ${email} do cliente?"
+										icon="ui-icon-alert" />
+								</p:commandButton>
+									#{email}
+								</h:column>
+						</h:dataTable>
+						<h:panelGrid border="0" columns="2"
+							rendered="#{viewUtil.temPapel('ATENDENTE')}">
+							<p:commandButton icon="ui-icon-plus" type="button"
+								onclick="PF('dlgEmail').show();" />
+							<p:dialog header="Adicionar Email" widgetVar="dlgEmail"
+								modal="true">
+								<p:inputText type="email" label="Email"
+									validatorMessage="E-mail inválido" id="emailInput"
+									value="#{clientesMBean.novoEmail}">
+									<f:validateRegex
+										pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+									<f:ajax render="messages"></f:ajax>
+								</p:inputText>
+								<f:facet name="footer">
+									<p:commandButton icon="ui-icon-plus"
+										actionListener="#{clientesMBean.adicionarEmail}"
+										onsuccess="PF('dlgEmail').hide();" update="form:emails" />
+								</f:facet>
+							</p:dialog>
+						</h:panelGrid>
+					</h:panelGrid>
+				</h:panelGrid>
+				<f:facet name="footer">
+					<h:panelGrid columns="3">
+						<p:commandButton id="btnSalvar" value="Editar"
+							actionListener="#{clientesMBean.editarCliente(clientesMBean.cliente)}"></p:commandButton>
+						<p:commandButton id="btnListaDeClientes" value="Lista de Clientes"
+							icon="ui-icon-cancel"
+							actionListener="#{clientesMBean.abrirPesquisa()}"></p:commandButton>
+						<p:commandButton id="btnAdicionar" value="Adicionar novo cliente"
+							icon="ui-icon-refresh"
+							actionListener="#{clientesMBean.novoCliente()}"></p:commandButton>
+
+					</h:panelGrid>
+				</f:facet>
+			</p:panel>
+		</p:fieldset>
+	</ui:define>
+
+	<ui:define name="bottom">
+
+	</ui:define>
+
+</ui:composition>
+</html>
