@@ -5,7 +5,9 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:sec="http://java.sun.com/jsf/composite/sec">
+      xmlns:sec="http://java.sun.com/jsf/composite/sec"
+      xmlns:util="http://java.sun.com/jsf/composite/util"
+>
 <ui:composition template="./templates/insecure-template.xhtml">
     <ui:define name="title">Login</ui:define>
     <ui:define name="top">
@@ -15,38 +17,47 @@
     </ui:define>
     <ui:define name="content">
         <h:form id="formlogin" prependId="true" styleClass="form-horizontal">
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <sec:messages/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="usuario" class="col-sm-1 control-label">Usuário:</label>
-                <div class="col-sm-11">
-                    <h:inputText tabindex="1" id="usuario" label="Usuário" required="true"
-                                 requiredMessage="Nome do usuário inválido"
-                                 styleClass="form-control"
-                                 value="#{loginMBean.usuario}"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="usuario" class="col-sm-1 control-label">Senha:</label>
-                <div class="col-sm-11">
-                    <h:inputSecret tabindex="2"
-                                   id="senha"
-                                   value="#{loginMBean.senha}"
-                                   required="true"
-                                   requiredMessage="senha não informada"
-                                   styleClass="form-control"
-                    />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-1 col-sm-11">
-                    <h:commandButton id="btnLogin" styleClass="btn btn-primary" tabindex="3" value="Login"
-                                     action="#{loginMBean.login}"/>
-                </div>
-            </div>
+            <util:formRow id="messages">
+                <sec:messages/>
+            </util:formRow>
+            <util:input id="usuario"
+                        label="Usuário:"
+                        for="usuarioInput"
+                        labelClass="col-sm-1"
+                        inputClass="col-sm-11">
+                <h:inputText tabindex="1" id="usuarioInput" required="true"
+                             requiredMessage="Nome do usuário inválido"
+                             styleClass="form-control"
+                             value="#{loginMBean.usuario}"/>
+            </util:input>
+
+            <util:input id="senha"
+                        label="Senha:"
+                        for="senhaInput"
+                        labelClass="col-sm-1"
+                        inputClass="col-sm-11">
+                <h:inputSecret tabindex="2"
+                               id="senhaInput"
+                               value="#{loginMBean.senha}"
+                               required="true"
+                               requiredMessage="senha não informada"
+                               styleClass="form-control"
+                />
+            </util:input>
+
+            <util:formRow id="buttonPanel" childrenClass="col-sm-offset-1 col-sm-11">
+                <button type="button"
+                        jsfc="h:commandLink"
+                        id="btnLogin"
+                        tabindex="3"
+                        actionListener="#{loginMBean.login()}"
+                        action="/home.xhtml?faces-redirect=true"
+                        class="btn btn-sm btn-primary">
+                    <i class="glyphicon glyphicon-off"></i>
+                    Autenticar
+                </button>
+            </util:formRow>
+
 
         </h:form>
     </ui:define>

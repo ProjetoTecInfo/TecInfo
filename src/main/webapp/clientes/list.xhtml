@@ -67,6 +67,7 @@
                                 jsfc="h:commandLink"
                                 id="btnAdicionarCliente"
                                 actionListener="#{clientesMBean.novoCliente()}"
+                                action="/clientes/add.xhtml?faces-redirect=true"
                                 class="btn btn-sm btn-success">
                             <i class="glyphicon glyphicon-plus"></i>
                             Adicionar Cliente
@@ -98,6 +99,7 @@
                                         <button type="button"
                                                 jsfc="h:commandLink"
                                                 actionListener="#{clientesMBean.abrirCliente(cliente.codigo)}"
+                                                action="/clientes/show.xhtml?faces-redirect=true"
                                                 class="btn btn-xs small btn-primary">
                                             <i class="glyphicon glyphicon-zoom-in"></i>
                                         </button>

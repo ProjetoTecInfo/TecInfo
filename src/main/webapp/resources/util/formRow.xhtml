@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:sec="http://xmlns.jcp.org/jsf/composite/sec"
+      xmlns:h="http://java.sun.com/jsf/html">
+<!-- INTERFACE -->
+<cc:interface>
+    <cc:attribute name="styleClass" default="form-group"/>
+    <cc:attribute name="childrenClass" default="col-sm-12"/>
+</cc:interface>
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+    <div class="#{cc.attrs.styleClass}" id="#{cc.clientId}">
+        <div class="#{cc.attrs.childrenClass}">
+            <cc:insertChildren></cc:insertChildren>
+        </div>
+    </div>
+</cc:implementation>
+</html>

@@ -19,13 +19,13 @@
     </ui:define>
 
     <ui:define name="content">
-        <sec:soAtendentes>
+        <sec:soAtendentes id="formProtegido">
             <h:form id="formClientes" prependId="true" styleClass="form-horizontal">
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Nome:</label>
                     <div class="col-sm-10">
-                        <label class="control-label">#{clientesMBean.cliente.nome}</label>
+                        <label class="control-label" id="nome">#{clientesMBean.cliente.nome}</label>
                     </div>
                 </div>
                 <div class="form-group">
@@ -37,6 +37,7 @@
                                 <ui:repeat var="email" value="#{clientesMBean.cliente.emails}">
                                     <tr>
                                         <td>
+
                                             #{email}</td>
                                     </tr>
                                 </ui:repeat>
@@ -50,7 +51,9 @@
                         <button type="button"
                                 jsfc="h:commandLink"
                                 id="btnAdicionarCliente"
-                                actionListener="#{clientesMBean.editarCliente()}"
+                                immediate="true"
+                                actionListener="#{clientesMBean.atualizarCliente()}"
+                                action="/clientes/edit.xhtml?faces-redirect=true"
                                 class="btn btn-sm btn-primary">
                             <i class="glyphicon glyphicon-edit"></i>
                             Editar
@@ -58,8 +61,10 @@
                         <button type="button"
                                 jsfc="h:commandLink"
                                 id="btnCancelar"
+                                immediate="true"
                                 onclick="return confirm('Quer realmente remover o cliente #{clientesMBean.cliente}?')"
                                 actionListener="#{clientesMBean.removerCliente()}"
+                                action="/clientes/list.xhtml"
                                 class="btn btn-sm btn-danger">
                             <i class="glyphicon glyphicon-eject"></i>
                             Remover
@@ -69,7 +74,8 @@
                                 jsfc="h:commandLink"
                                 id="btnPesquisarClientes"
                                 immediate="true"
-                                actionListener="#{clientesMBean.procurarClientes()}"
+                                actionListener="#{clientesMBean.procurar}"
+                                action="/clientes/list.xhtml?faces-redirect=true"
                                 class="btn btn-sm btn-success">
                             <i class="glyphicon glyphicon-eject"></i>
                             Pesquisar Clientes

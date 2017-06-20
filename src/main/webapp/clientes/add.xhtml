@@ -19,9 +19,13 @@
     </ui:define>
 
     <ui:define name="content">
-        <sec:soAtendentes>
+        <sec:soAtendentes id="formProtegido">
             <h:form id="formClientes" prependId="true" styleClass="form-horizontal">
-
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <sec:messages/>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="nome" class="col-sm-2 control-label">Nome:</label>
                     <div class="col-sm-10">
@@ -35,10 +39,11 @@
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="button"
+                        <button type="submit"
                                 jsfc="h:commandLink"
                                 id="btnAdicionarCliente"
                                 actionListener="#{clientesMBean.adicionarCliente()}"
+                                action="/clientes/edit.xhtml?faces-redirect=true"
                                 class="btn btn-sm btn-primary">
                             <i class="glyphicon glyphicon-check"></i>
                             Salvar
@@ -47,7 +52,8 @@
                                 jsfc="h:commandLink"
                                 id="btnCancelar"
                                 immediate="true"
-                                actionListener="#{clientesMBean.procurarClientes()}"
+                                actionListener="#{clientesMBean.procurar()}"
+                                action="/clientes/list.xhtml?faces-redirect=true"
                                 class="btn btn-sm btn-success">
                             <i class="glyphicon glyphicon-eject"></i>
                             Pesquisar Clientes

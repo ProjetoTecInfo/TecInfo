@@ -37,6 +37,10 @@ public class ViewUtil implements ViewManager {
         irParaPagina(page,true);
     }
 
+    public String navegar(Object page){
+        return String.valueOf(page);
+    }
+
     @Override
     public void irParaPagina(String page, boolean redirect) {
         ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) facesContext.getApplication()

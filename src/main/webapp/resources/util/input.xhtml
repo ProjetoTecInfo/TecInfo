@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html">
+<!-- INTERFACE -->
+<cc:interface>
+
+    <cc:attribute name="for" />
+    <cc:attribute name="label" required="true"/>
+    <cc:attribute name="labelClass" default="col-sm-2"/>
+    <cc:attribute name="styleClass" default="form-group" />
+    <cc:attribute name="inputClass" default="col-sm-10" />
+
+</cc:interface>
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+    <div class="#{cc.attrs.styleClass}">
+        <label for="#{cc.attrs.for}" class="control-label #{cc.attrs.labelClass}">#{cc.attrs.label}</label>
+        <div class="#{cc.attrs.inputClass}">
+            <cc:insertChildren></cc:insertChildren>
+        </div>
+    </div>
+</cc:implementation>
+</html>

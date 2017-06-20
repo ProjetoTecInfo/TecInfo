@@ -64,10 +64,6 @@ public class ClientesMBean implements Serializable {
         this.clientesEncontrados = this.g.filtrarPor(this.filtro);
     }
 
-    public void procurarClientes() {
-        this.procurar();
-        this.viewManager.irParaPagina("/clientes/list.xhtml", true);
-    }
 
     public List<Cliente> getClientesEncontrados() {
         if (this.clientesEncontrados == null)
@@ -96,29 +92,24 @@ public class ClientesMBean implements Serializable {
 
     public void novoCliente() {
         this.cliente = new Cliente();
-        this.viewManager.irParaPagina("/clientes/add.xhtml", false);
+//        this.viewManager.irParaPagina("/clientes/add.xhtml", false);
     }
 
     public void adicionarCliente() {
         this.g.criar(this.cliente);
         this.g.salvar();
         this.cliente = this.g.getCorrente();
-        this.viewManager.irParaPagina("/clientes/edit.xhtml", false);
     }
 
-    public void editarCliente() {
-        atualizarCliente();
-        this.viewManager.irParaPagina("/clientes/edit.xhtml", false);
-    }
 
     public void cancelarEdicao() {
         atualizarCliente();
         this.email = null;
-        this.viewManager.irParaPagina("/clientes/show.xhtml", false);
     }
 
     public void atualizarCliente() {
         this.g.atualizar();
+        this.email = null;
         this.cliente = this.g.getCorrente();
     }
 
@@ -135,21 +126,19 @@ public class ClientesMBean implements Serializable {
                         String.format("Cliente %s removido com sucesso!", this.cliente)).build());
         this.cliente = null;
         this.procurar();
-        this.viewManager.irParaPagina("/clientes/list.xhtml", false);
     }
 
     public void abrirCliente(Long codigo) {
         this.cliente = this.g.getCliente(codigo);
-        this.viewManager.irParaPagina("/clientes/show.xhtml", false);
     }
 
     public void adicionarEmail() {
         this.cliente.adicionarEmail(this.email);
-        this.email=null;
+        this.email = null;
     }
 
     public void removerEmail(String email) {
         this.cliente.removeEmail(email);
-        this.email=email;
+        this.email = email;
     }
 }
