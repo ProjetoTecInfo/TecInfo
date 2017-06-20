@@ -5,7 +5,8 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:sec="http://xmlns.jcp.org/jsf/composite/sec">
+      xmlns:sec="http://xmlns.jcp.org/jsf/composite/sec"
+      xmlns:util="http://xmlns.jcp.org/jsf/composite/util">
 <ui:composition template="/templates/secure-template.xhtml">
 
     <ui:define name="title">
@@ -19,94 +20,147 @@
     </ui:define>
 
     <ui:define name="content">
-        <sec:soAtendentes>
+        <sec:soAtendentes id="formProtegido">
             <h:form id="formClientes" prependId="true" styleClass="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-12">
                         <sec:messages/>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="nome" class="col-sm-2 control-label">Nome:</label>
-                    <div class="col-sm-10">
-                        <h:inputText id="nome" value="#{clientesMBean.cliente.nome}"
-                                     styleClass="form-control"
-                                     requiredMessage="Informe o nome do cliente"
-                                     required="true"
-                        />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Emails:</label>
-                    <div class="col-sm-10">
-                        <h:panelGroup id="emails">
-                            <table class="table table-bordered table-striped">
-                                <tr>
-                                    <th>
-                                        <h:panelGroup rendered="#{viewUtil.temPapel('ATENDENTE')}">
-                                            <table>
-                                                <tr>
-                                                    <td>
-                                                        <h:inputText id="email" value="#{clientesMBean.email}"
-                                                                     styleClass="form-control">
-                                                        </h:inputText></td>
-                                                    <td>
-                                                        <button type="button"
-                                                                jsfc="h:commandLink"
-                                                                id="btnAdicionarEmail"
-                                                                actionListener="#{clientesMBean.adicionarEmail()}"
-                                                                class="btn btn-sm btn-danger">
-                                                            <i class="glyphicon glyphicon-plus"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </h:panelGroup>
-                                    </th>
-                                </tr>
-                                <tbody>
-                                <ui:repeat var="email" value="#{clientesMBean.cliente.emails}">
-                                    <tr>
-                                        <td>
-                                            <button type="button"
-                                                    jsfc="h:commandLink"
-                                                    id="btnRemoverEmail"
-                                                    actionListener="#{clientesMBean.removerEmail(email)}"
-                                                    class="btn btn-sm btn-danger">
-                                                <i class="glyphicon glyphicon-minus"></i>
-                                            </button>
-                                            #{email}</td>
-                                    </tr>
-                                </ui:repeat>
-                                </tbody>
-                            </table>
-                        </h:panelGroup>
-                    </div>
-                </div>
+                <util:input label="Nome:" id="nome" for="nomeInput">
+                    <h:inputText id="nomeInput" value="#{clientesMBean.cliente.nome}"
+                                 styleClass="form-control"
+                                 requiredMessage="Informe o nome do cliente"
+                                 required="true"
+                    />
+                </util:input>
 
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="button"
-                                jsfc="h:commandLink"
-                                id="btnAdicionarCliente"
-                                actionListener="#{clientesMBean.salvarCliente()}"
-                                action="/clientes/show.xhtml?faces-redirect=true"
-                                class="btn btn-sm btn-primary">
-                            <i class="glyphicon glyphicon-check"></i>
-                            Salvar
-                        </button>
-                        <button type="button"
-                                jsfc="h:commandLink"
-                                id="btnCancelar"
-                                immediate="true"
-                                actionListener="#{clientesMBean.cancelarEdicao()}"
-                                action="/clientes/show.xhtml?faces-redirect=true"
-                                class="btn btn-sm btn-danger">
-                            <i class="glyphicon glyphicon-eject"></i>
-                            Cancelar
-                        </button>
-                    </div>
-                </div>
+                <util:input label="Endereços:" id="enderecosPanel">
+                    <h:panelGroup id="enderecos">
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <th>
+                                    <h:panelGroup rendered="#{viewUtil.temPapel('ATENDENTE')}">
+
+                                        <div class="form-horizontal">
+                                            <util:input label="Logradouro:" for="logradouroInput">
+                                                <h:inputText id="logradouroInput"
+                                                             value="#{clientesMBean.endereco.logradouro}"
+                                                             styleClass="form-control">
+                                                </h:inputText>
+                                            </util:input>
+                                            <util:input label="Número:" labelClass="col-sm-2 text-nowrap" for="numInput">
+                                                <h:inputText id="numInput"
+                                                             value="#{clientesMBean.endereco.numero}"
+                                                             styleClass="form-control">
+                                                </h:inputText>
+                                            </util:input>
+                                            <util:input label="CEP:" for="cepInput">
+                                                <h:inputText id="cepInput"
+                                                             value="#{clientesMBean.endereco.cep}"
+                                                             styleClass="form-control">
+                                                </h:inputText>
+                                            </util:input>
+                                            <util:formRow id="endButtonPanel" childrenClass="col-sm-offset-2 col-sm-10">
+                                                <button type="button"
+                                                        jsfc="h:commandLink"
+                                                        id="btnAdicionarEndereco"
+                                                        actionListener="#{clientesMBean.adicionarEndereco()}"
+                                                        class="btn btn-sm btn-primary">
+                                                    <i class="glyphicon glyphicon-plus"></i>
+                                                    Adicionar
+                                                </button>
+                                            </util:formRow>
+                                        </div>
+                                    </h:panelGroup>
+                                </th>
+                            </tr>
+                            <tbody>
+                            <ui:repeat var="endereco" value="#{clientesMBean.cliente.enderecos}">
+                                <tr>
+                                    <td>
+                                        <button type="button"
+                                                jsfc="h:commandLink"
+                                                id="btnRemoverEndereco"
+                                                actionListener="#{clientesMBean.removerEndereco(endereco)}"
+                                                class="btn btn-sm btn-danger">
+                                            <i class="glyphicon glyphicon-minus"></i>
+                                        </button>
+                                        #{endereco}</td>
+                                </tr>
+                            </ui:repeat>
+                            </tbody>
+                        </table>
+                    </h:panelGroup>
+                </util:input>
+
+                <util:input label="Emails:" id="emailsPanel">
+                    <h:panelGroup id="emails">
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <th>
+                                    <h:panelGroup rendered="#{viewUtil.temPapel('ATENDENTE')}">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <h:inputText id="email" value="#{clientesMBean.email}"
+                                                                 styleClass="form-control">
+                                                    </h:inputText></td>
+                                                <td>
+                                                    <button type="button"
+                                                            jsfc="h:commandLink"
+                                                            id="btnAdicionarEmail"
+                                                            actionListener="#{clientesMBean.adicionarEmail()}"
+                                                            class="btn btn-sm btn-danger">
+                                                        <i class="glyphicon glyphicon-plus"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </h:panelGroup>
+                                </th>
+                            </tr>
+                            <tbody>
+                            <ui:repeat var="email" value="#{clientesMBean.cliente.emails}">
+                                <tr>
+                                    <td>
+                                        <button type="button"
+                                                jsfc="h:commandLink"
+                                                id="btnRemoverEmail"
+                                                actionListener="#{clientesMBean.removerEmail(email)}"
+                                                class="btn btn-sm btn-danger">
+                                            <i class="glyphicon glyphicon-minus"></i>
+                                        </button>
+                                        #{email}</td>
+                                </tr>
+                            </ui:repeat>
+                            </tbody>
+                        </table>
+                    </h:panelGroup>
+                </util:input>
+
+
+                <util:formRow id="buttonPanel" childrenClass="col-sm-offset-2 col-sm-10">
+                    <button type="button"
+                            jsfc="h:commandLink"
+                            id="btnAdicionarCliente"
+                            actionListener="#{clientesMBean.salvarCliente()}"
+                            action="/clientes/show.xhtml?faces-redirect=true"
+                            class="btn btn-sm btn-primary">
+                        <i class="glyphicon glyphicon-check"></i>
+                        Salvar
+                    </button>
+                    <button type="button"
+                            jsfc="h:commandLink"
+                            id="btnCancelar"
+                            immediate="true"
+                            actionListener="#{clientesMBean.cancelarEdicao()}"
+                            action="/clientes/show.xhtml?faces-redirect=true"
+                            class="btn btn-sm btn-danger">
+                        <i class="glyphicon glyphicon-eject"></i>
+                        Cancelar
+                    </button>
+                </util:formRow>
             </h:form>
         </sec:soAtendentes>
     </ui:define>

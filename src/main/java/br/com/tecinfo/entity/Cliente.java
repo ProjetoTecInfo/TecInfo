@@ -1,27 +1,17 @@
 package br.com.tecinfo.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "clientes")
 @NamedQueries({@NamedQuery(name = Cliente.ListarTodos, query = "select c from Cliente c"),
         @NamedQuery(name = Cliente.PesquisarPorCodigo, query = "select c from Cliente c where c.codigo = ?1"),
         @NamedQuery(name = Cliente.PesquisarPorNome, query = "select c from Cliente c where lower (c.nome) like lower (  '%' || ?1 || '%') ")})
-public class Cliente implements Serializable {
+public class Cliente extends SuportaValidacoes implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,7 +28,11 @@ public class Cliente implements Serializable {
     @ElementCollection
     @CollectionTable(name = "clientes_emails", joinColumns = @JoinColumn(name = "cliente"))
     @Column(name = "email")
-    private List<String> emails = new ArrayList<>();
+    private Set<String> emails = new LinkedHashSet<>();
+
+    @ElementCollection
+    @CollectionTable(name = "clientes_enderecos", joinColumns = @JoinColumn(name = "cliente"))
+    private Set<Endereco> enderecos = new LinkedHashSet<>();
 
     public Cliente() {
         // requerido pelo JPA
@@ -66,8 +60,38 @@ public class Cliente implements Serializable {
         return emails.toArray(new String[0]);
     }
 
+    public Endereco[] getEnderecos() {
+        return enderecos.toArray(new Endereco[0]);
+    }
+
+    public Cliente adicionarEndereco(Endereco endereco) {
+        if (endereco != null) {
+            validarEndereco(endereco);
+            this.enderecos.add(endereco);
+        }
+        return this;
+    }
+
+    private void validarEndereco(Endereco endereco) {
+       naoPodeEstarEmBranco("Endereço inválido: informe o Logradouro",endereco.getLogradouro());
+       naoPodeEstarEmBranco("Endereço inválido: informe o Número",endereco.getNumero());
+       naoPodeEstarEmBranco("Endereço inválido: informe o CEP",endereco.getCep());
+    }
+
+    public Cliente removerEndereco(Endereco endereco) {
+        if (endereco != null)
+            this.enderecos.remove(endereco);
+        return this;
+    }
+
+    public Cliente removeTodosEnderecos() {
+        this.enderecos.clear();
+        return this;
+    }
+
     public Cliente adicionarEmail(String email) {
-        if (email != null) {
+        validarEmail(email);
+        if (email != null && !email.trim().isEmpty()) {
             for (String e : this.emails) {
                 if (e.equalsIgnoreCase(email))
                     return this;
@@ -75,6 +99,12 @@ public class Cliente implements Serializable {
             this.emails.add(email.toLowerCase());
         }
         return this;
+    }
+
+    private void validarEmail(String email) {
+        if (email == null || !email.matches("^(|[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,}))$")) {
+            throw new IllegalArgumentException("Email inválido");
+        }
     }
 
     public Cliente removeTodosEmails() {

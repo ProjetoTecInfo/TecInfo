@@ -5,7 +5,9 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:sec="http://xmlns.jcp.org/jsf/composite/sec">
+      xmlns:sec="http://xmlns.jcp.org/jsf/composite/sec"
+      xmlns:util="http://xmlns.jcp.org/jsf/composite/util">
+
 <ui:composition template="/templates/secure-template.xhtml">
 
     <ui:define name="title">
@@ -21,45 +23,39 @@
     <ui:define name="content">
         <sec:soAtendentes id="formProtegido">
             <h:form id="formClientes" prependId="true" styleClass="form-horizontal">
-                <div class="form-group">
-                    <div class="col-sm-12">
-                        <sec:messages/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="nome" class="col-sm-2 control-label">Nome:</label>
-                    <div class="col-sm-10">
-                        <h:inputText id="nome" value="#{clientesMBean.cliente.nome}"
-                                     styleClass="form-control"
-                                     requiredMessage="Informe o nome do cliente"
-                                     required="true"
-                        />
-                    </div>
-                </div>
+                <util:formRow id="messages">
+                    <sec:messages/>
+                </util:formRow>
+                <util:input label="Nome:" id="nome" for="nomeInput">
+                    <h:inputText id="nomeInput" value="#{clientesMBean.cliente.nome}"
+                                 styleClass="form-control"
+                                 requiredMessage="Informe o nome do cliente"
+                                 required="true"
+                    />
+                </util:input>
 
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit"
-                                jsfc="h:commandLink"
-                                id="btnAdicionarCliente"
-                                actionListener="#{clientesMBean.adicionarCliente()}"
-                                action="/clientes/edit.xhtml?faces-redirect=true"
-                                class="btn btn-sm btn-primary">
-                            <i class="glyphicon glyphicon-check"></i>
-                            Salvar
-                        </button>
-                        <button type="button"
-                                jsfc="h:commandLink"
-                                id="btnCancelar"
-                                immediate="true"
-                                actionListener="#{clientesMBean.procurar()}"
-                                action="/clientes/list.xhtml?faces-redirect=true"
-                                class="btn btn-sm btn-success">
-                            <i class="glyphicon glyphicon-eject"></i>
-                            Pesquisar Clientes
-                        </button>
-                    </div>
-                </div>
+                <util:formRow id="buttonPanel" childrenClass="col-sm-offset-2 col-sm-10">
+                    <button type="submit"
+                            jsfc="h:commandLink"
+                            id="btnAdicionarCliente"
+                            actionListener="#{clientesMBean.adicionarCliente()}"
+                            action="/clientes/edit.xhtml?faces-redirect=true"
+                            class="btn btn-sm btn-primary">
+                        <i class="glyphicon glyphicon-check"></i>
+                        Salvar
+                    </button>
+                    <button type="button"
+                            jsfc="h:commandLink"
+                            id="btnCancelar"
+                            immediate="true"
+                            actionListener="#{clientesMBean.procurar()}"
+                            action="/clientes/list.xhtml?faces-redirect=true"
+                            class="btn btn-sm btn-success">
+                        <i class="glyphicon glyphicon-eject"></i>
+                        Pesquisar Clientes
+                    </button>
+                </util:formRow>
+
             </h:form>
         </sec:soAtendentes>
     </ui:define>

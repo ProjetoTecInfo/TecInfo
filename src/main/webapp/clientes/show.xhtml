@@ -5,7 +5,8 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:sec="http://xmlns.jcp.org/jsf/composite/sec">
+      xmlns:sec="http://xmlns.jcp.org/jsf/composite/sec"
+      xmlns:util="http://xmlns.jcp.org/jsf/composite/util">
 <ui:composition template="/templates/secure-template.xhtml">
 
     <ui:define name="title">
@@ -21,67 +22,79 @@
     <ui:define name="content">
         <sec:soAtendentes id="formProtegido">
             <h:form id="formClientes" prependId="true" styleClass="form-horizontal">
+                <util:formRow id="messages">
+                    <sec:messages/>
+                </util:formRow>
 
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Nome:</label>
-                    <div class="col-sm-10">
-                        <label class="control-label" id="nome">#{clientesMBean.cliente.nome}</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Emails:</label>
-                    <div class="col-sm-10">
-                        <h:panelGroup id="emails">
-                            <table class="table table-bordered table-striped">
-                                <tbody>
-                                <ui:repeat var="email" value="#{clientesMBean.cliente.emails}">
-                                    <tr>
-                                        <td>
+                <util:input label="Nome:" id="lblNome">
+                    <label class="control-label" id="nome">#{clientesMBean.cliente.nome}</label>
+                </util:input>
 
-                                            #{email}</td>
-                                    </tr>
-                                </ui:repeat>
-                                </tbody>
-                            </table>
-                        </h:panelGroup>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="button"
-                                jsfc="h:commandLink"
-                                id="btnAdicionarCliente"
-                                immediate="true"
-                                actionListener="#{clientesMBean.atualizarCliente()}"
-                                action="/clientes/edit.xhtml?faces-redirect=true"
-                                class="btn btn-sm btn-primary">
-                            <i class="glyphicon glyphicon-edit"></i>
-                            Editar
-                        </button>
-                        <button type="button"
-                                jsfc="h:commandLink"
-                                id="btnCancelar"
-                                immediate="true"
-                                onclick="return confirm('Quer realmente remover o cliente #{clientesMBean.cliente}?')"
-                                actionListener="#{clientesMBean.removerCliente()}"
-                                action="/clientes/list.xhtml"
-                                class="btn btn-sm btn-danger">
-                            <i class="glyphicon glyphicon-eject"></i>
-                            Remover
-                        </button>
+                <util:input label="Endereços:" id="lblEnderecos">
+                    <h:panelGroup id="enderecos">
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+                            <ui:repeat var="e" value="#{clientesMBean.cliente.enderecos}">
+                                <tr>
+                                    <td>#{e}</td>
+                                </tr>
+                            </ui:repeat>
+                            </tbody>
+                        </table>
+                    </h:panelGroup>
+                </util:input>
 
-                        <button type="button"
-                                jsfc="h:commandLink"
-                                id="btnPesquisarClientes"
-                                immediate="true"
-                                actionListener="#{clientesMBean.procurar}"
-                                action="/clientes/list.xhtml?faces-redirect=true"
-                                class="btn btn-sm btn-success">
-                            <i class="glyphicon glyphicon-eject"></i>
-                            Pesquisar Clientes
-                        </button>
-                    </div>
-                </div>
+
+                <util:input label="Emails:" id="lblEmails">
+                    <h:panelGroup id="emails">
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+                            <ui:repeat var="email" value="#{clientesMBean.cliente.emails}">
+                                <tr>
+                                    <td>#{email}</td>
+                                </tr>
+                            </ui:repeat>
+                            </tbody>
+                        </table>
+                    </h:panelGroup>
+                </util:input>
+
+
+
+                <util:formRow id="buttonPanel" childrenClass="col-sm-offset-2 col-sm-10">
+                    <button type="button"
+                            jsfc="h:commandLink"
+                            id="btnAdicionarCliente"
+                            immediate="true"
+                            actionListener="#{clientesMBean.atualizarCliente()}"
+                            action="/clientes/edit.xhtml?faces-redirect=true"
+                            class="btn btn-sm btn-primary">
+                        <i class="glyphicon glyphicon-edit"></i>
+                        Editar
+                    </button>
+                    <button type="button"
+                            jsfc="h:commandLink"
+                            id="btnCancelar"
+                            immediate="true"
+                            onclick="return confirm('Quer realmente remover o cliente #{clientesMBean.cliente}?')"
+                            actionListener="#{clientesMBean.removerCliente()}"
+                            action="/clientes/list.xhtml"
+                            class="btn btn-sm btn-danger">
+                        <i class="glyphicon glyphicon-eject"></i>
+                        Remover
+                    </button>
+
+                    <button type="button"
+                            jsfc="h:commandLink"
+                            id="btnPesquisarClientes"
+                            immediate="true"
+                            actionListener="#{clientesMBean.procurar}"
+                            action="/clientes/list.xhtml?faces-redirect=true"
+                            class="btn btn-sm btn-success">
+                        <i class="glyphicon glyphicon-eject"></i>
+                        Pesquisar Clientes
+                    </button>
+                </util:formRow>
             </h:form>
         </sec:soAtendentes>
     </ui:define>

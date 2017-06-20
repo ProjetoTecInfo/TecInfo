@@ -3,6 +3,7 @@ package br.com.tecinfo.boundary.jsf;
 import br.com.tecinfo.controller.GerenciadorDeClientes;
 import br.com.tecinfo.controller.GerenciadorDeClientes.FiltroCliente;
 import br.com.tecinfo.entity.Cliente;
+import br.com.tecinfo.entity.Endereco;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,6 +78,13 @@ public class ClientesMBean implements Serializable {
 
     private Cliente cliente;
     private String email;
+    private Endereco endereco;
+
+    public Endereco getEndereco() {
+        if (endereco == null)
+            endereco = new Endereco();
+        return endereco;
+    }
 
     public String getEmail() {
         return email;
@@ -105,11 +113,13 @@ public class ClientesMBean implements Serializable {
     public void cancelarEdicao() {
         atualizarCliente();
         this.email = null;
+        this.endereco = null;
     }
 
     public void atualizarCliente() {
         this.g.atualizar();
         this.email = null;
+        this.endereco=null;
         this.cliente = this.g.getCorrente();
     }
 
@@ -140,5 +150,15 @@ public class ClientesMBean implements Serializable {
     public void removerEmail(String email) {
         this.cliente.removeEmail(email);
         this.email = email;
+    }
+
+    public void adicionarEndereco(){
+        this.cliente.adicionarEndereco(this.endereco);
+        this.endereco=null;
+    }
+
+    public void removerEndereco(Endereco endereco){
+        this.cliente.removerEndereco(endereco);
+        this.endereco=endereco;
     }
 }
