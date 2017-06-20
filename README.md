@@ -6,7 +6,7 @@ PROJETO PRÁTICO EM MIGRAÇÃO DE SISTEMAS
 
 Projeto Maven que gera um arquivo WAR em Java 1.8 que utiliza as especificações:
 
-	JSF + Primefaces / EJB3 / JPA 
+	JSF + Bootstrap 3 / EJB3 / JPA 
 
 E utiliza o Arquillian (http://arquillian.org/) como framework de testes;
 

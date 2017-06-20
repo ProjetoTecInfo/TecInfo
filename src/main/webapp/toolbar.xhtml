@@ -29,8 +29,10 @@
                                                    href="#">Clientes</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Usuário: #{loginMBean.funcionarioCorrente.nome}</a></li>
-                        <li class="li-btn-toolbar"><a href="#" jsfc="h:commandLink"
+                        <li><a href="#" id="welcome">Usuário: #{loginMBean.funcionarioCorrente.nome}</a></li>
+                        <li class="li-btn-toolbar">
+                            <a href="#" jsfc="h:commandLink"
+                               id="btnLogout"
                                actionListener="#{loginMBean.logout()}"
                                immediate="true">
                             <button type="submit" class="btn btn-sm btn-primary"><i
