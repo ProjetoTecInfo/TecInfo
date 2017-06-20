@@ -1,86 +1,98 @@
 package br.com.tecinfo.controller;
 
-import java.util.List;
+import br.com.tecinfo.entity.Cliente;
 
-import javax.ejb.Stateless;
+import javax.ejb.Remove;
+import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
-import br.com.tecinfo.entity.Cliente;
-
-@Stateless
-@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+@Stateful
+@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class GerenciadorDeClientesEJB implements GerenciadorDeClientes {
 
-	@PersistenceContext
-	EntityManager em;
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    EntityManager em;
 
-	@Override
-	public List<Cliente> listarTodos() {
-		TypedQuery<Cliente> query = em.createNamedQuery(Cliente.ListarTodos, Cliente.class);
-		return query.getResultList();
-	}
+    private Cliente clienteCorrente;
 
-	@Override
-	public List<Cliente> pesquisarPorCodigo(Long codigo) {
-		TypedQuery<Cliente> query = em.createNamedQuery(Cliente.PesquisarPorCodigo, Cliente.class);
-		query.setParameter(1, codigo);
-		return query.getResultList();
-	}
+    @Override
+    public List<Cliente> filtrarPor(FiltroCliente filtro) {
+        return filtro.getTipoDeFiltro().filtrar(this, filtro);
+    }
 
-	@Override
-	public List<Cliente> pesquisarPorNome(String nome) {
-		TypedQuery<Cliente> query = em.createNamedQuery(Cliente.PesquisarPorNome, Cliente.class);
-		query.setParameter(1, nome);
-		return query.getResultList();
-	}
+    @Override
+    public List<Cliente> pesquisarPorCodigo(Long codigo) {
+        TypedQuery<Cliente> query = em.createNamedQuery(Cliente.PesquisarPorCodigo, Cliente.class);
+        query.setParameter(1, codigo);
+        return query.getResultList();
+    }
 
-	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public Cliente adicionar(Cliente cliente) {
-		em.persist(cliente);
-		return cliente;
-	}
+    @Override
+    public List<Cliente> pesquisarPorNome(String nome) {
+        TypedQuery<Cliente> query = em.createNamedQuery(Cliente.PesquisarPorNome, Cliente.class);
+        query.setParameter(1, nome);
+        return query.getResultList();
+    }
 
-	@Override
-	public Cliente pegarClientePorCodigo(Long codigo) {
-		em.clear();
-		return em.find(Cliente.class, codigo);
-	}
+    @Override
+    public List<Cliente> listarTodos() {
+        TypedQuery<Cliente> query = em.createNamedQuery(Cliente.ListarTodos, Cliente.class);
+        return query.getResultList();
+    }
 
-	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public Cliente alterar(Cliente cliente) {
-		em.clear();
-		em.merge(cliente);
-		return cliente;
-	}
+    @Override
+    public Cliente getCliente(Long codigo) {
+        this.clienteCorrente = this.em.find(Cliente.class, codigo);
+        return getCorrente();
+    }
 
-	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void remover(Cliente cliente) {
-		Cliente client = pegarClientePorCodigo(cliente.getCodigo());
-		client.removeTodosEmails();
-		em.remove(client);
-	}
+    @Override
+    public Cliente getCorrente() {
+        return clienteCorrente;
+    }
 
-	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public Cliente adicionarEmailAoCliente(Cliente cliente, String email) {
-		Cliente c = pegarClientePorCodigo(cliente.getCodigo());
-		c.adicionarEmail(email);
-		return c;
-	}
+    @Override
+    public void criar(Cliente cliente) {
+        em.persist(cliente);
+        this.clienteCorrente = cliente;
+    }
 
-	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public Cliente removerEmailAoCliente(Cliente cliente, String email) {
-		Cliente c = pegarClientePorCodigo(cliente.getCodigo());
-		c.removeEmail(email);
-		return c;
-	}
+    @Override
+    public void remover(Long codigo) {
+        Cliente ref = em.getReference(Cliente.class, codigo);
+        em.clear();
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void salvar() {
+        //nada a fazer
+    }
+
+    @Override
+    public void atualizar() {
+        if (getCorrente() != null && getCorrente().getCodigo() != null) {
+            this.em.refresh(getCorrente());
+        }
+    }
+
+    @Override
+    public void removerCorrente() {
+        this.em.remove(getCorrente());
+        this.clienteCorrente = null;
+    }
+
+    @Override
+    @Remove
+    public void fechar() {
+        //nada a fazer
+    }
+
 
 }

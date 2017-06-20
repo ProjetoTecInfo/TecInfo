@@ -1,45 +1,112 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:sec="http://xmlns.jcp.org/jsf/composite/sec"
-	xmlns:p="http://primefaces.org/ui">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:sec="http://xmlns.jcp.org/jsf/composite/sec">
 <ui:composition template="/templates/secure-template.xhtml">
 
-	<ui:define name="title">
+    <ui:define name="title">
         Adicionar Cliente
     </ui:define>
 
-	<ui:define name="top">
-	</ui:define>
+    <ui:define name="top">
+        <div class="page-header">
+            <h3>Cliente [#{clientesMBean.cliente.codigo}]</h3>
+        </div>
+    </ui:define>
 
-	<ui:define name="content">
-		<sec:soAtendentes>
-			<p:fieldset legend="Clientes" style="margin-bottom:20px">
-				<p:panel header="Cliente [#{clientesMBean.cliente.codigo}]"
-					style="margin-bottom:20px">
-					<h:panelGrid columns="2">
-						<p:outputLabel for="nome" value="Nome:" />
-						<p:inputText id="nome" value="#{clientesMBean.cliente.nome}"></p:inputText>
-					</h:panelGrid>
-					<f:facet name="footer">
-						<h:panelGrid columns="3">
-							<p:commandButton id="btnSalvar" value="Ok"
-								actionListener="#{clientesMBean.salvarCliente()}"></p:commandButton>
-							<p:commandButton id="btnReset" value="Cancelar"
-								actionListener="#{clientesMBean.abrirCliente(clientesMBean.cliente)}"></p:commandButton>
-						</h:panelGrid>
-					</f:facet>
-				</p:panel>
-			</p:fieldset>
-		</sec:soAtendentes>
-	</ui:define>
+    <ui:define name="content">
+        <sec:soAtendentes>
+            <h:form id="formClientes" prependId="true" styleClass="form-horizontal">
 
-	<ui:define name="bottom">
+                <div class="form-group">
+                    <label for="nome" class="col-sm-2 control-label">Nome:</label>
+                    <div class="col-sm-10">
+                        <h:inputText id="nome" value="#{clientesMBean.cliente.nome}"
+                                     styleClass="form-control"
+                                     requiredMessage="Informe o nome do cliente"
+                                     required="true"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Emails:</label>
+                    <div class="col-sm-10">
+                        <h:panelGroup id="emails">
+                            <table class="table table-bordered table-striped">
+                                <tr>
+                                    <th>
+                                        <h:panelGroup rendered="#{viewUtil.temPapel('ATENDENTE')}">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <h:inputText id="email" value="#{clientesMBean.email}"
+                                                                     styleClass="form-control">
+                                                        </h:inputText></td>
+                                                    <td>
+                                                        <button type="button"
+                                                                jsfc="h:commandLink"
+                                                                id="btnAdicionarEmail"
+                                                                actionListener="#{clientesMBean.adicionarEmail()}"
+                                                                class="btn btn-sm btn-danger">
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </h:panelGroup>
+                                    </th>
+                                </tr>
+                                <tbody>
+                                <ui:repeat var="email" value="#{clientesMBean.cliente.emails}">
+                                    <tr>
+                                        <td>
+                                            <button type="button"
+                                                    jsfc="h:commandLink"
+                                                    id="btnRemoverEmail"
+                                                    actionListener="#{clientesMBean.removerEmail(email)}"
+                                                    class="btn btn-sm btn-danger">
+                                                <i class="glyphicon glyphicon-minus"></i>
+                                            </button>
+                                            #{email}</td>
+                                    </tr>
+                                </ui:repeat>
+                                </tbody>
+                            </table>
+                        </h:panelGroup>
+                    </div>
+                </div>
 
-	</ui:define>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button"
+                                jsfc="h:commandLink"
+                                id="btnAdicionarCliente"
+                                actionListener="#{clientesMBean.salvarCliente()}"
+                                class="btn btn-sm btn-primary">
+                            <i class="glyphicon glyphicon-check"></i>
+                            Salvar
+                        </button>
+                        <button type="button"
+                                jsfc="h:commandLink"
+                                id="btnCancelar"
+                                actionListener="#{clientesMBean.cancelarEdicao()}"
+                                class="btn btn-sm btn-danger">
+                            <i class="glyphicon glyphicon-eject"></i>
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </h:form>
+        </sec:soAtendentes>
+    </ui:define>
+
+    <ui:define name="bottom">
+
+    </ui:define>
 
 </ui:composition>
 </html>

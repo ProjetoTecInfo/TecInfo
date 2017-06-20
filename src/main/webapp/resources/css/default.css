@@ -1,7 +1,51 @@
-
-.vertical-top{
-	vertical-align: top;
+body {
+    padding-top: 80px;
+    padding-bottom: 20px;
 }
-.borderless{
-	border: 0px;
+
+p {
+    margin: 0 0 10px;
+}
+
+.page-header {
+    margin: 20px 0 20px;
+}
+
+.theme-dropdown .dropdown-menu {
+    position: static;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+    margin: 5px 0;
+}
+
+.theme-showcase .btn-sm {
+    margin: 5px 0;
+}
+
+.theme-showcase .navbar .container {
+    width: auto;
+}
+
+.vertical-top {
+    vertical-align: top;
+}
+
+.borderless {
+    border: 0px;
+}
+
+.navbar {
+    margin-bottom: 0px;
+}
+
+.li-btn-toolbar {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.btn.btn-sm {
+    margin:2px;
 }

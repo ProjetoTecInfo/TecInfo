@@ -1,63 +1,155 @@
 package br.com.tecinfo.boundary.jsf;
 
+import br.com.tecinfo.controller.GerenciadorDeClientes;
+import br.com.tecinfo.controller.GerenciadorDeClientes.FiltroCliente;
+import br.com.tecinfo.entity.Cliente;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Model;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Model;
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import br.com.tecinfo.controller.Clientes;
-import br.com.tecinfo.controller.Clientes.FiltroCliente;
-import br.com.tecinfo.entity.Cliente;
-
-@RequestScoped
+@SessionScoped
 @Model
 public class ClientesMBean implements Serializable {
 
-	public static final Logger logger = LoggerFactory.getLogger(ClientesMBean.class);
+    private static final long serialVersionUID = 1L;
 
-	private static final List<Map<String, Serializable>> FILTROS;
-	static {
+    public static final Logger logger = LoggerFactory.getLogger(ClientesMBean.class);
 
-		FILTROS = new ArrayList<>(2);
-		HashMap<String, Serializable> map = new HashMap<>();
-		FILTROS.add(map);
-		map.put("descricao", "Por Codigo");
-		map.put("valor", FiltroCliente.TipoDeFiltro.POR_CODIGO);
+    private static final List<Map<String, Serializable>> FILTROS;
 
-		FILTROS.add(map = new HashMap<>());
-		map.put("descricao", "Por Nome");
-		map.put("valor", FiltroCliente.TipoDeFiltro.POR_NOME);
-	}
+    static {
 
-	private static final long serialVersionUID = 1L;
+        FILTROS = new ArrayList<>(2);
+        HashMap<String, Serializable> map = new HashMap<>();
+        FILTROS.add(map);
+        map.put("descricao", "Por Codigo");
+        map.put("valor", FiltroCliente.TipoDeFiltro.POR_CODIGO);
 
-	@Inject
-	private Clientes clientes;
+        FILTROS.add(map = new HashMap<>());
+        map.put("descricao", "Por Nome");
+        map.put("valor", FiltroCliente.TipoDeFiltro.POR_NOME);
+    }
 
-	private FiltroCliente filtro = new FiltroCliente();
+    @Inject
+    private GerenciadorDeClientes g;
 
-	private List<Cliente> clientesEncontrados;
+    @Inject
+    private ViewManager viewManager;
 
-	public void procurar() {
-		this.clientesEncontrados = this.clientes.procurar(this.filtro);
-	}
+    private FiltroCliente filtro = new FiltroCliente();
 
-	public List<Cliente> getClientesEncontrados() {
-		return clientesEncontrados;
-	}
+    public FiltroCliente getFiltro() {
+        if (filtro == null) {
+            filtro = new FiltroCliente();
+        }
+        return filtro;
+    }
 
-	@Produces
-	@Model
-	public List<Map<String, Serializable>> getFiltrosSuportados() {
-		return FILTROS;
-	}
+    public void setFiltro(FiltroCliente filtro) {
+
+        this.filtro = filtro;
+    }
+
+    private List<Cliente> clientesEncontrados = new ArrayList<>();
+
+    public void procurar() {
+        this.clientesEncontrados = this.g.filtrarPor(this.filtro);
+    }
+
+    public void procurarClientes() {
+        this.procurar();
+        this.viewManager.irParaPagina("/clientes/list.xhtml", true);
+    }
+
+    public List<Cliente> getClientesEncontrados() {
+        if (this.clientesEncontrados == null)
+            this.clientesEncontrados = new ArrayList<>();
+        return clientesEncontrados;
+    }
+
+    public List<Map<String, Serializable>> getFiltrosSuportados() {
+        return FILTROS;
+    }
+
+    private Cliente cliente;
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void novoCliente() {
+        this.cliente = new Cliente();
+        this.viewManager.irParaPagina("/clientes/add.xhtml", false);
+    }
+
+    public void adicionarCliente() {
+        this.g.criar(this.cliente);
+        this.g.salvar();
+        this.cliente = this.g.getCorrente();
+        this.viewManager.irParaPagina("/clientes/edit.xhtml", false);
+    }
+
+    public void editarCliente() {
+        atualizarCliente();
+        this.viewManager.irParaPagina("/clientes/edit.xhtml", false);
+    }
+
+    public void cancelarEdicao() {
+        atualizarCliente();
+        this.email = null;
+        this.viewManager.irParaPagina("/clientes/show.xhtml", false);
+    }
+
+    public void atualizarCliente() {
+        this.g.atualizar();
+        this.cliente = this.g.getCorrente();
+    }
+
+    public void salvarCliente() {
+        this.g.salvar();
+        this.abrirCliente(this.cliente.getCodigo());
+    }
+
+    public void removerCliente() {
+        this.g.removerCorrente();
+        this.g.salvar();
+        this.viewManager.exibirMensagens(null,
+                this.viewManager.facesMessageBuilder().asInfo().summary(
+                        String.format("Cliente %s removido com sucesso!", this.cliente)).build());
+        this.cliente = null;
+        this.procurar();
+        this.viewManager.irParaPagina("/clientes/list.xhtml", false);
+    }
+
+    public void abrirCliente(Long codigo) {
+        this.cliente = this.g.getCliente(codigo);
+        this.viewManager.irParaPagina("/clientes/show.xhtml", false);
+    }
+
+    public void adicionarEmail() {
+        this.cliente.adicionarEmail(this.email);
+        this.email=null;
+    }
+
+    public void removerEmail(String email) {
+        this.cliente.removeEmail(email);
+        this.email=email;
+    }
 }

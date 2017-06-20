@@ -1,27 +1,46 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:sec="http://java.sun.com/jsf/composite/sec"
+      xmlns:h="http://java.sun.com/jsf/html">
 
 <ui:composition>
-	<h:form>
-		<h:panelGrid columns="2">
-			<h:outputText value="Usuário: " />
-			<h:outputText value="#{loginMBean.funcionarioCorrente.nome}" />
-		</h:panelGrid>
 
-		<nav class="navbar navbar-default">
-		<ul class="nav navbar-nav navbar-left">
-			<li role="presentation"><a jsfc="h:commandLink"
-				action="/clientes/list.xhtml?faces-redirect=true" href="#">Clientes</a></li>
-		</ul>
+    <h:form id="formMenu" prependId="true">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="#" class="navbar-brand">Projeto - Tecinfo</a>
+                </div>
 
-		<ul class="nav navbar-nav navbar-right">
-			<li role="presentation"><a jsfc="h:commandLink"
-				actionListener="#{loginMBean.logout()}" immediate="true" href="#">Logout</a></li>
-		</ul>
-		</nav>
-	</h:form>
+                <div  class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li role="presentation"><a jsfc="h:commandLink"
+                                                   action="/clientes/list.xhtml?faces-redirect=true"
+                                                   href="#">Clientes</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Usuário: #{loginMBean.funcionarioCorrente.nome}</a></li>
+                        <li class="li-btn-toolbar"><a href="#" jsfc="h:commandLink"
+                               actionListener="#{loginMBean.logout()}"
+                               immediate="true">
+                            <button type="submit" class="btn btn-sm btn-primary"><i
+                                    class="glyphicon glyphicon-eject"></i> Logout
+                            </button>
+                        </a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+    </h:form>
+
 </ui:composition>
 </html>

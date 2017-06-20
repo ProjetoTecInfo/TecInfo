@@ -1,47 +1,66 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:sec="http://xmlns.jcp.org/jsf/composite/sec">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:sec="http://xmlns.jcp.org/jsf/composite/sec">
 <ui:composition template="/templates/secure-template.xhtml">
 
-	<ui:define name="title">
+    <ui:define name="title">
         Adicionar Cliente
     </ui:define>
 
-	<ui:define name="top">
-	</ui:define>
+    <ui:define name="top">
+        <div class="page-header">
+            <h3>Adicionar Cliente</h3>
+        </div>
+    </ui:define>
 
-	<ui:define name="content">
-		<sec:soAtendentes>
-			<p:fieldset legend="Clientes - Adicionar Cliente"
-				style="margin-bottom:20px">
-				<h:panelGrid columns="2">
-					<h:outputLabel for="nome" value="Nome:" />
-					<p:inputText id="nome" value="#{clientesMBean.cliente.nome}"></p:inputText>
-					<f:facet name="footer">
-						<h:panelGrid columns="3">
-							<p:commandButton id="btnSalvar" value="Ok" icon="ui-icon-check"
-								actionListener="#{clientesMBean.adicionarCliente()}"></p:commandButton>
-							<p:commandButton id="btnReset" value="Limpar"
-								icon="ui-icon-refresh"
-								actionListener="#{clientesMBean.novoCliente()}"></p:commandButton>
-							<p:commandButton id="btnListaDeClientes" value="Lista de Clientes"
-								icon="ui-icon-cancel"
-								actionListener="#{clientesMBean.abrirPesquisa()}"></p:commandButton>
-						</h:panelGrid>
-					</f:facet>
-				</h:panelGrid>
-			</p:fieldset>
-		</sec:soAtendentes>
-	</ui:define>
+    <ui:define name="content">
+        <sec:soAtendentes>
+            <h:form id="formClientes" prependId="true" styleClass="form-horizontal">
 
-	<ui:define name="bottom">
+                <div class="form-group">
+                    <label for="nome" class="col-sm-2 control-label">Nome:</label>
+                    <div class="col-sm-10">
+                        <h:inputText id="nome" value="#{clientesMBean.cliente.nome}"
+                                     styleClass="form-control"
+                                     requiredMessage="Informe o nome do cliente"
+                                     required="true"
+                        />
+                    </div>
+                </div>
 
-	</ui:define>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button"
+                                jsfc="h:commandLink"
+                                id="btnAdicionarCliente"
+                                actionListener="#{clientesMBean.adicionarCliente()}"
+                                class="btn btn-sm btn-primary">
+                            <i class="glyphicon glyphicon-check"></i>
+                            Salvar
+                        </button>
+                        <button type="button"
+                                jsfc="h:commandLink"
+                                id="btnCancelar"
+                                immediate="true"
+                                actionListener="#{clientesMBean.procurarClientes()}"
+                                class="btn btn-sm btn-success">
+                            <i class="glyphicon glyphicon-eject"></i>
+                            Pesquisar Clientes
+                        </button>
+                    </div>
+                </div>
+            </h:form>
+        </sec:soAtendentes>
+    </ui:define>
+
+    <ui:define name="bottom">
+
+    </ui:define>
 
 </ui:composition>
 </html>

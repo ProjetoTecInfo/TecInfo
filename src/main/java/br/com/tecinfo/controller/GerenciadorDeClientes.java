@@ -1,27 +1,87 @@
 package br.com.tecinfo.controller;
 
-import java.util.List;
-
 import br.com.tecinfo.entity.Cliente;
 
-public interface GerenciadorDeClientes {
+import java.io.Serializable;
+import java.util.List;
 
-	List<Cliente> pesquisarPorCodigo(Long codigo);
+public interface GerenciadorDeClientes extends Serializable {
 
-	List<Cliente> pesquisarPorNome(String nome);
+    public static class FiltroCliente implements Serializable {
 
-	List<Cliente> listarTodos();
+        private static final long serialVersionUID = 1L;
 
-	Cliente adicionar(Cliente cliente);
+        public static enum TipoDeFiltro {
+            POR_CODIGO {
+                @Override
+                List<Cliente> filtrar(GerenciadorDeClientes gerenciadorDeClientes, FiltroCliente filtroCliente) {
+                    return gerenciadorDeClientes.pesquisarPorCodigo(filtroCliente.getCodigoRef());
+                }
+            }, POR_NOME {
+                @Override
+                List<Cliente> filtrar(GerenciadorDeClientes gerenciadorDeClientes, FiltroCliente filtroCliente) {
+                    return gerenciadorDeClientes.pesquisarPorNome(filtroCliente.getNomeRef());
+                }
+            };
 
-	Cliente pegarClientePorCodigo(Long codigo);
+            abstract List<Cliente> filtrar(GerenciadorDeClientes gerenciadorDeClientes, FiltroCliente filtroCliente);
+        }
 
-	Cliente alterar(Cliente cliente);
+        private TipoDeFiltro tipoDeFiltro = TipoDeFiltro.POR_NOME;
+        private Long codigoRef;
+        private String nomeRef;
 
-	void remover(Cliente cliente);
+        public TipoDeFiltro getTipoDeFiltro() {
 
-	Cliente adicionarEmailAoCliente(Cliente cliente, String email);
+            return tipoDeFiltro;
+        }
 
-	Cliente removerEmailAoCliente(Cliente cliente, String email);
+        public void setTipoDeFiltro(TipoDeFiltro tipoDeFiltro) {
+
+            this.tipoDeFiltro = tipoDeFiltro;
+        }
+
+        public Long getCodigoRef() {
+            return codigoRef;
+        }
+
+        public void setCodigoRef(Long codigoRef) {
+
+            this.codigoRef = codigoRef;
+        }
+
+        public String getNomeRef() {
+            return nomeRef;
+        }
+
+        public void setNomeRef(String nomeRef) {
+            this.nomeRef = nomeRef;
+        }
+
+    }
+
+    List<Cliente> filtrarPor(FiltroCliente fitro);
+
+    List<Cliente> pesquisarPorCodigo(Long codigo);
+
+    List<Cliente> pesquisarPorNome(String nome);
+
+    List<Cliente> listarTodos();
+
+    public Cliente getCliente(Long codigo);
+
+    public Cliente getCorrente();
+
+    public void criar(Cliente cliente);
+
+    public void salvar();
+
+    public void atualizar();
+
+    public void remover(Long codigo);
+
+    public void removerCorrente();
+
+    public void fechar();
 
 }

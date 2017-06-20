@@ -11,43 +11,58 @@ import javax.inject.Inject;
 
 @RequestScoped
 @Model
-public class ViewUtil {
+public class ViewUtil implements ViewManager {
 
-	@Inject
-	private FacesContext facesContext;
+    @Inject
+    private FacesContext facesContext;
 
-	@Inject
-	@SessionScoped
-	private LoginMBean loginBean;
+    @Inject
+    @SessionScoped
+    private LoginMBean loginBean;
 
-	public void isAuthenticated(ComponentSystemEvent event) {
+    public void isAuthenticated(ComponentSystemEvent event) {
 
-		if (!isLogged()) {
-			irParaPagina("/login.xhtml", true);
-		}
-	}
+        if (!isLogged()) {
+            irParaPagina("/login.xhtml", true);
+        }
+    }
 
-	public boolean isLogged() {
-		return this.loginBean.isLogged();
-	}
+    @Override
+    public boolean isLogged() {
+        return this.loginBean.isLogged();
+    }
 
-	public void irParaPagina(String page, boolean redirect) {
-		ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) facesContext.getApplication()
-				.getNavigationHandler();
-		nav.performNavigation(page + (redirect ? "?faces-redirect=true" : ""));
-	}
+    @Override
+    public void irParaPagina(String page){
+        irParaPagina(page,true);
+    }
 
-	public boolean temPapel(String papel) {
-		return loginBean.getFuncionarioCorrente().temPapel(papel);
-	}
+    @Override
+    public void irParaPagina(String page, boolean redirect) {
+        ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) facesContext.getApplication()
+                .getNavigationHandler();
+        nav.performNavigation(page + (redirect ? "?faces-redirect=true" : ""));
+    }
 
-	public boolean temAlgumDessesPapeis(String... papeis) {
-		return loginBean.getFuncionarioCorrente().temAlgumDessesPapeis(papeis);
-	}
+    @Override
+    public boolean temPapel(String papel) {
+        return loginBean.getFuncionarioCorrente().temPapel(papel);
+    }
 
-	public void exibirMensagens(String clientId, FacesMessage... messages) {
-		for (FacesMessage message : messages) {
-			facesContext.addMessage(clientId, message);
-		}
-	}
+    @Override
+    public boolean temAlgumDessesPapeis(String... papeis) {
+        return loginBean.getFuncionarioCorrente().temAlgumDessesPapeis(papeis);
+    }
+
+    @Override
+    public void exibirMensagens(String clientId, FacesMessage... messages) {
+        for (FacesMessage message : messages) {
+            facesContext.addMessage(clientId, message);
+        }
+    }
+
+    @Override
+    public FacesMessageBuilder facesMessageBuilder() {
+        return FacesMessageBuilder.builder();
+    }
 }

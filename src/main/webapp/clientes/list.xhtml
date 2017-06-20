@@ -1,93 +1,124 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:sec="http://java.sun.com/jsf/composite/sec">
 <ui:composition template="/templates/secure-template.xhtml">
 
-	<ui:define name="title">
+    <ui:define name="title">
         Clientes
     </ui:define>
 
-	<ui:define name="top">
+    <ui:define name="top">
+        <div class="page-header">
+            <h3>Clientes</h3>
+        </div>
+    </ui:define>
 
-	</ui:define>
+    <ui:define name="content">
 
-	<ui:define name="content">
-		<p:fieldset legend="Clientes - Pesquisar" style="margin-bottom:20px">
-			<h:panelGrid id="frmPesquisa" columns="5" cellpadding="5">
-				<h:outputLabel for="tipoDeFiltro" value="Pesquisar por:" />
+        <h:form id="formClientes" prependId="true" styleClass="form-horizontal">
 
-				<p:selectOneMenu id="tipoDeFiltro" 
-					value="#{clientesMBean.tipoFiltro}" immediate="true">
-					<f:ajax immediate="true" render="form:valorFiltro"></f:ajax>
-					<f:selectItems value="#{clientesMBean.filtrosSuportados}"></f:selectItems>
-				</p:selectOneMenu>
+            <div class="form-group">
+                <label for="tipoDeFiltro" class="col-sm-2 control-label">Pesquisar por:</label>
+                <div class="col-sm-10">
+                    <h:selectOneMenu id="tipoDeFiltro"
+                                     value="#{clientesMBean.filtro.tipoDeFiltro}" immediate="true"
+                                     styleClass="form-control">
+                        <f:ajax event="change" immediate="true" execute="@this" render="formClientes:valorFiltro"/>
+                        <f:selectItems value="#{clientesMBean.filtrosSuportados}" var="f" itemLabel="#{f['descricao']}"
+                                       itemValue="#{f['valor']}"/>
+                    </h:selectOneMenu>
+                </div>
+            </div>
 
-				<h:panelGroup id="valorFiltro">
-					<p:inputText id="codigoRef" value="#{clientesMBean.codigoRef}"
-						converterMessage="Código inválido"
-						rendered="#{clientesMBean.getFiltrosSuportados()[1] eq clientesMBean.tipoFiltro}" />
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Onde o valor é:</label>
+                <div class="col-sm-10">
+                    <h:panelGroup id="valorFiltro">
+                        <h:inputText id="codigoRef" value="#{clientesMBean.filtro.codigoRef}"
+                                     converterMessage="Código inválido"
+                                     styleClass="form-control"
+                                     rendered="#{clientesMBean.getFiltrosSuportados()[0]['valor'] eq clientesMBean.filtro.tipoDeFiltro}">
+                            <f:convertNumber type="number" integerOnly="true" groupingUsed="false"/>
+                        </h:inputText>
 
-					<p:inputText id="nomeRef" value="#{clientesMBean.nomeRef}"
-						rendered="#{clientesMBean.getFiltrosSuportados()[0] eq clientesMBean.tipoFiltro}" />
-				</h:panelGroup>
-				<f:facet name="footer">
-					<p:commandButton id="btnClientePesquisa" value="Procurar"
-						icon="ui-icon-search"
-						update="form:messages,form:frmPesquisa,form:listaClientes"
-						actionListener="#{clientesMBean.pesquisar()}"></p:commandButton>
-					<p:commandButton id="btnClientePesquisaReset" value="Nova pesquisa"
-						icon="ui-icon-refresh" immediate="true"
-						actionListener="#{clientesMBean.abrirPesquisa()}"
-						update="form:messages,form:frmPesquisa,form:listaClientes">
-					</p:commandButton>
-					<p:commandButton id="btnAddCliente" value="Adicionar Novo"
-						icon="ui-icon-plus"
-						update="form:messages,form:tipoDeFiltro,form:valorFiltro,form:listaClientes"
-						actionListener="#{clientesMBean.novoCliente()}" immediate="true"
-						rendered="#{viewUtil.temPapel('ATENDENTE')}"></p:commandButton>
-				</f:facet>
-			</h:panelGrid>
+                        <h:inputText id="nomeRef" value="#{clientesMBean.filtro.nomeRef}"
+                                     styleClass="form-control"
+                                     rendered="#{clientesMBean.getFiltrosSuportados()[1]['valor'] eq clientesMBean.filtro.tipoDeFiltro}"/>
+                    </h:panelGroup>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-11">
+                    <p>
+                        <button type="button"
+                                jsfc="h:commandLink"
+                                id="btnClientePesquisa"
+                                actionListener="#{clientesMBean.procurar()}"
+                                class="btn btn-sm btn-primary">
+                            <i class="glyphicon glyphicon-search"></i>
+                            Procurar
+                        </button>
+                        <button type="button"
+                                jsfc="h:commandLink"
+                                id="btnAdicionarCliente"
+                                actionListener="#{clientesMBean.novoCliente()}"
+                                class="btn btn-sm btn-success">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            Adicionar Cliente
+                        </button>
+                    </p>
+                </div>
+            </div>
 
-		</p:fieldset>
-		<p:dataTable var="cliente" id="listaClientes"
-			value="#{clientesMBean.clientesEncontrados}" rows="10"
-			paginator="true" emptyMessage="Nenhum cliente registrado"
-			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-			rowsPerPageTemplate="5,10,15">
+            <div class="col-sm-12">
+                <div jsfc="h:panelGroup" rendered="#{ clientesMBean.clientesEncontrados.isEmpty() }">
+                    <h4>Nenhum cliente encontrado</h4>
+                </div>
+                <div jsfc="h:panelGroup" rendered="#{ ! clientesMBean.clientesEncontrados.isEmpty() }">
+                    <div class="page-header">
+                        <h4>Clientes encontrados</h4>
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <th>#</th>
+                                <th>Código</th>
+                                <th>Nome</th>
+                            </tr>
+                            <tbody>
+                            <ui:repeat var="cliente"
+                                       value="#{clientesMBean.clientesEncontrados}">
+                                <tr>
+                                    <td>
+                                        <button type="button"
+                                                jsfc="h:commandLink"
+                                                actionListener="#{clientesMBean.abrirCliente(cliente.codigo)}"
+                                                class="btn btn-xs small btn-primary">
+                                            <i class="glyphicon glyphicon-zoom-in"></i>
+                                        </button>
+                                    </td>
+                                    <td>#{cliente.codigo}</td>
+                                    <td>#{cliente.nome}</td>
+                                </tr>
+                            </ui:repeat>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-			<p:column headerText="">
-				<p:commandButton icon="ui-icon-zoomin"
-					actionListener="#{clientesMBean.abrirCliente(cliente)}"
-					immediate="true"></p:commandButton>
-				<p:commandButton icon="ui-icon-trash"
-					actionListener="#{clientesMBean.remover(cliente)}"
-					update="listaClientes" rendered="#{viewUtil.temPapel('ATENDENTE')}">
-					<p:confirm header="Remover Cliente"
-						message="Deseja realmente remover o cliente #{cliente.nome} ?"
-						icon="ui-icon-alert" />
-				</p:commandButton>
 
-			</p:column>
+        </h:form>
+    </ui:define>
 
-			<p:column sortBy="#{cliente.codigo}" width="10%" headerText="Código">
-				<h:outputText value="#{cliente.codigo}" />
-			</p:column>
+    <ui:define name="bottom">
 
-			<p:column sortBy="#{cliente.nome}" width="80%" headerText="Nome">
-				<h:outputText value="#{cliente.nome}" />
-			</p:column>
-
-
-		</p:dataTable>
-	</ui:define>
-
-	<ui:define name="bottom">
-		
-	</ui:define>
+    </ui:define>
 
 </ui:composition>
 </html>
