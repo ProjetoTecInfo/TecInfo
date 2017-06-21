@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:sec="http://java.sun.com/jsf/composite/sec">
+<ui:composition template="/templates/secure-template.xhtml">
+
+    <ui:define name="title">
+        Funcionários
+    </ui:define>
+
+    <ui:define name="top">
+        <div class="page-header">
+            <h3>Funcionários</h3>
+        </div>
+    </ui:define>
+
+    <ui:define name="content">
+        <sec:soAdminstradores id="formProtegido">
+            <h:form id="formFuncionários" prependId="true" styleClass="form-horizontal">
+
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-11">
+                        <p>
+                            <button type="button"
+                                    jsfc="h:commandLink"
+                                    id="btnFuncionarioPesquisa"
+                                    actionListener="#{funcionariosMBean.listar()}"
+                                    class="btn btn-sm btn-primary">
+                                <i class="glyphicon glyphicon-refresh"></i>
+                                Atualizar
+                            </button>
+                            <button type="button"
+                                    jsfc="h:commandLink"
+                                    id="btnAdicionarFuncionario"
+                                    actionListener="#{funcionariosMBean.novoFuncionario()}"
+                                    action="/funcionarios/add.xhtml?faces-redirect=true"
+                                    class="btn btn-sm btn-success">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                Adicionar Funcionário
+                            </button>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div jsfc="h:panelGroup" rendered="#{ funcionariosMBean.funcionariosEncontrados.isEmpty() }">
+                        <h4>Nenhum funcionário encontrado</h4>
+                    </div>
+                    <div jsfc="h:panelGroup" rendered="#{ ! funcionariosMBean.funcionariosEncontrados.isEmpty() }">
+                        <div class="page-header">
+                            <h4>Funcionários encontrados</h4>
+                        </div>
+                        <div class="row">
+                            <table class="table table-bordered table-striped">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Código</th>
+                                    <th>Usuário</th>
+                                    <th>Nome</th>
+                                    <th>Papéis</th>
+                                </tr>
+                                <tbody>
+                                <ui:repeat var="funcionario"
+                                           value="#{funcionariosMBean.funcionariosEncontrados}">
+                                    <tr>
+                                        <td>
+                                            <button type="button"
+                                                    jsfc="h:commandLink"
+                                                    actionListener="#{funcionariosMBean.abrir(funcionario.codigo)}"
+                                                    action="/funcionarios/show.xhtml?faces-redirect=true"
+                                                    class="btn btn-xs small btn-primary">
+                                                <i class="glyphicon glyphicon-zoom-in"></i>
+                                            </button>
+                                        </td>
+                                        <td>#{funcionario.codigo}</td>
+                                        <td>#{funcionario.usuario}</td>
+                                        <td>#{funcionario.nome}</td>
+                                        <td>
+                                            <ul>
+                                                <ui:repeat value="#{funcionario.papeis}" var="papel">
+                                                    <li>#{funcionariosMBean.mostrarLabelDoPapel(papel)}</li>
+                                                </ui:repeat>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </ui:repeat>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </h:form>
+        </sec:soAdminstradores>
+    </ui:define>
+
+    <ui:define name="bottom">
+
+    </ui:define>
+
+</ui:composition>
+</html>

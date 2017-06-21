@@ -22,7 +22,7 @@ public class LoginMBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static Logger logger= LoggerFactory.getLogger(LoginMBean.class);
+    private static Logger logger = LoggerFactory.getLogger(LoginMBean.class);
 
     @Inject
     @RequestScoped
@@ -53,20 +53,21 @@ public class LoginMBean implements Serializable {
     }
 
     public void login() {
-        logger.info("realizando a autencação do usuário {}...",usuario);
+        logger.info("realizando a autencação do usuário {}...", usuario);
         this.funcionarioCorrente = autenticador.autenticar(usuario, senha);
         if (this.funcionarioCorrente == null) {
-            logger.info("usuário {} é não pode ser autenticado: usuário ou senha inválidos",usuario);
+            logger.info("usuário {} é não pode ser autenticado: usuário ou senha inválidos", usuario);
             facesContext.get().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "Falha de autenticação", "usuário ou senha inválidos"));
         }
-        logger.info("usuário {} autenticado com sucesso!",usuario);
+        logger.info("usuário {} autenticado com sucesso!", usuario);
     }
 
     public void logout() {
 
-        logger.info("efetuando o logoff do usuário {}...",this.funcionarioCorrente.getUsuario());
+        logger.info("efetuando o logoff do usuário {}...", this.funcionarioCorrente.getUsuario());
         this.funcionarioCorrente = null;
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
     }
 
     public boolean isLogged() {

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:sec="http://xmlns.jcp.org/jsf/composite/sec"
+      xmlns:util="http://xmlns.jcp.org/jsf/composite/util">
+
+<ui:composition template="/templates/secure-template.xhtml">
+
+    <ui:define name="title">
+        Adicionar Funcionario
+    </ui:define>
+
+    <ui:define name="top">
+        <div class="page-header">
+            <h3>Funcionário [#{funcionariosMBean.funcionario.codigo}]</h3>
+        </div>
+    </ui:define>
+
+    <ui:define name="content">
+        <sec:soAdminstradores id="formProtegido">
+            <h:form id="formFuncionarios" prependId="true" styleClass="form-horizontal">
+                <util:formRow id="messages">
+                    <sec:messages/>
+                </util:formRow>
+                <util:input label="Nome:" id="lblnome" for="nome">
+                    <label class="control-label" id="nome">#{funcionariosMBean.funcionario.nome}</label>
+                </util:input>
+                <util:input label="Usuário:" id="usuario" for="usuarioInput">
+                    <label class="control-label" id="usuarioInput">#{funcionariosMBean.funcionario.usuario}</label>
+                </util:input>
+
+                <util:input label="Papéis:" id="papeisPanel">
+                    <h:panelGroup id="papeis">
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+                            <ui:repeat var="papel" value="#{funcionariosMBean.funcionario.papeis}">
+                                <tr>
+                                    <td>
+                                        #{funcionariosMBean.mostrarLabelDoPapel(papel)}
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                            </tbody>
+                        </table>
+                    </h:panelGroup>
+                </util:input>
+
+                <util:formRow id="buttonPanel" childrenClass="col-sm-offset-2 col-sm-10">
+                    <button type="button"
+                            jsfc="h:commandLink"
+                            id="btnAdicionarCliente"
+                            immediate="true"
+                            actionListener="#{funcionariosMBean.atualizar()}"
+                            action="/funcionarios/edit.xhtml?faces-redirect=true"
+                            class="btn btn-sm btn-primary">
+                        <i class="glyphicon glyphicon-edit"></i>
+                        Editar
+                    </button>
+                    <button type="button"
+                            jsfc="h:commandLink"
+                            id="btnCancelar"
+                            immediate="true"
+                            onclick="return confirm('Quer realmente remover o funcionário #{funcionariosMBean.funcionario}?')"
+                            actionListener="#{funcionariosMBean.remover()}"
+                            action="/funcionarios/list.xhtml"
+                            class="btn btn-sm btn-danger">
+                        <i class="glyphicon glyphicon-eject"></i>
+                        Remover
+                    </button>
+
+                    <button type="button"
+                            jsfc="h:commandLink"
+                            id="btnPesquisarClientes"
+                            immediate="true"
+                            actionListener="#{funcionariosMBean.listar()}"
+                            action="/funcionarios/list.xhtml?faces-redirect=true"
+                            class="btn btn-sm btn-success">
+                        <i class="glyphicon glyphicon-eject"></i>
+                        Listar Funcionários
+                    </button>
+                </util:formRow>
+
+            </h:form>
+        </sec:soAdminstradores>
+    </ui:define>
+
+    <ui:define name="bottom">
+
+    </ui:define>
+
+</ui:composition>
+</html>
