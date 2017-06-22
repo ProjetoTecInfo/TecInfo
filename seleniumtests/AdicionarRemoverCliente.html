@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://tecinfo.jworkgears.com/" />
+<title>AdicionarRemoverCliente</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">AdicionarRemoverCliente</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/tecinfo-web/login.jsf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=formlogin:usuario:usuarioInput</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=formlogin:senha:senhaInput</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=formlogin:buttonPanel:btnLogin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Clientes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=formClientes:btnAdicionarCliente</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=formProtegido:soAtendentes:formClientes:nome:nomeInput</td>
+	<td>Maximillian</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=i.glyphicon.glyphicon-check</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=formProtegido:soAtendentes:formClientes:buttonPanel:btnAdicionarCliente</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=formProtegido:soAtendentes:formClientes:buttonPanel:btnPesquisarClientes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=formClientes:nomeRef</td>
+	<td>Max</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=formClientes:btnClientePesquisa</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//form[@id='formClientes']/div[4]/div/h4</td>
+	<td>Clientes encontrados</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=i.glyphicon.glyphicon-zoom-in</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=formProtegido:soAtendentes:formClientes:buttonPanel:btnCancelar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertConfirmation</td>
+	<td>Quer *</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='content']/ul/li</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//form[@id='formClientes']/div[4]/h4</td>
+	<td>Nenhum cliente encontrado</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//button[@type='submit']</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
