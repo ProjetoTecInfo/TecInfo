@@ -38,7 +38,7 @@ public class Deployments {
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
 				.setWebXML(new File("src/main/webapp","WEB-INF/web.xml"))
 				.addAsWebInfResource(new StringAsset("<faces-config version=\"2.0\"/>"), "faces-config.xml");
-		System.out.println(webarchive.toString(true));		
+//		System.out.println(webarchive.toString(true));
 		return webarchive;
 	}
 
@@ -57,7 +57,7 @@ public class Deployments {
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
 				.setWebXML(new File("src/main/webapp","WEB-INF/web.xml"))
 				.addAsWebInfResource(new StringAsset("<faces-config version=\"2.0\"/>"), "faces-config.xml");
-		System.out.println(webarchive.toString(true));
+//		System.out.println(webarchive.toString(true));
 		return webarchive;
 	}
 }
