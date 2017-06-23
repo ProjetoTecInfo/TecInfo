@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://tecinfo.jworkgears.com/" />
+<title>AdicionarRemoverFuncionario</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">AdicionarRemoverFuncionario</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/tecinfo-web/login.jsf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=formlogin:usuario:usuarioInput</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=formlogin:senha:senhaInput</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=formlogin:buttonPanel:btnLogin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Funcionários</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=formProtegido:soAdministradores:formFuncionários:btnAdicionarFuncionario</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=formProtegido:soAdministradores:formFuncionarios:nome:nomeInput</td>
+	<td>João Luis da Silva</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=formProtegido:soAdministradores:formFuncionarios:buttonPanel:btnAdicionarFuncionario</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=formProtegido:soAdministradores:formFuncionarios:papeisPanel:j_idt33:1:btnAdicionarPapel</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=formProtegido:soAdministradores:formFuncionarios:buttonPanel:btnAdicionarFuncionario</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=formProtegido:soAdministradores:formFuncionarios:buttonPanel:btnPesquisarClientes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//form[@id='formProtegido:soAdministradores:formFuncionários']/div[2]/div[2]/table/tbody[2]/tr[3]/td[4]</td>
+	<td>João Luis da Silva</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//form[@id='formProtegido:soAdministradores:formFuncionários']/div[2]/div[2]/table/tbody[2]/tr[3]/td/a/i</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=formProtegido:soAdministradores:formFuncionarios:buttonPanel:btnCancelar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertConfirmation</td>
+	<td>Quer realmente remover o funcionário João Luis da Silva&lt;jldsilva&gt;?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertBodyText</td>
+	<td>*Cliente João Luis da Silva&lt;jldsilva&gt; removido com sucesso!*</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//button[@type='submit']</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

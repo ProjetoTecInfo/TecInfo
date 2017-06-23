@@ -77,7 +77,7 @@ public abstract class BaseIT {
 
     @After
     public void tearDown() throws Exception {
-        webDriver.close();
+//        webDriver.close();
         webDriver.quit();
         webDriver = null;
     }
